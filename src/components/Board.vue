@@ -44,25 +44,6 @@ export default {
     position: absolute;
     width: 1vw;
 }
-#piece7 {
-    top: 86.5%;
-    left: 7.5%;
-}
-
-#piece7 {
-    top: 86.5%;
-    left: 7.5%;
-}
-
-#piece8 {
-    top: 79%;
-    left: 9.8%;
-}
-
-#piece7 {
-    top: 86.5%;
-    left: 7.5%;
-}
 
 #piece1 {
     top: 85%;
