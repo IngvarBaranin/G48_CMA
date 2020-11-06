@@ -1,5 +1,15 @@
 <template>
     <div class="game">
+
+        <div class="buttons">
+            <button v-on:click="moveButton">Move 1</button>
+            <button v-on:click="getTop">Move 2</button>
+            <button v-on:click="getTop">Move 3</button>
+            <button v-on:click="getTop">Move 4</button>
+            <button v-on:click="getTop">Move 5</button>
+            <button v-on:click="getTop">Move 6</button>
+        </div>
+
         <div class="gamecontainer">
             <img class="board" src="../assets/Gameboard.png">
             <img class = "piece" id="piece1" src="../assets/piece1.png">
@@ -15,7 +25,7 @@
 <script>
 export default {
     methods: {
-        getTop: function () {
+        moveButton: function () {
             const elements = document.getElementsByClassName("piece");
 
             var i;
@@ -28,8 +38,8 @@ export default {
                 leftStyle = parseFloat(leftStyle);
                 topStyle = parseFloat(topStyle);
 
-                elements[i].style.left = leftStyle + 10 + "px";
-                elements[i].style.top = topStyle + 10 + "px";
+                elements[i].style.left = leftStyle + 1 + "%";
+                elements[i].style.top = topStyle + 1 + "%";
             }
         },
   }
@@ -39,6 +49,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+button {
+    margin-left: 1%;
+    margin-right: 1%;
+}
 
 .piece {
     position: absolute;
