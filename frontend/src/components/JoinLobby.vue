@@ -1,14 +1,11 @@
 <template>
     <div class="container">
-        <h1>Join Lobby</h1>
-        <div id="output">
-            <p v-for="(text, index) in textOutput" :key="index">{{text}}</p>
-        </div>
-        <div id="input">
+        <div class="content">
+            <h1>Join Lobby</h1>
             <form>
-                <input type="text" v-model="nameInput" placeholder="Name"/>
-                <input type="text" v-model="codeInput" placeholder="Code"/>
-                <input type="submit" value="Send" @click.stop.prevent="submitText"/>
+                <input class="namebox" type="text" v-model="nameInput" placeholder="Username"/>
+                <input class="namebox" type="text" v-model="codeInput" placeholder="Code"/>
+                <input class="brk-btn" type="submit" value="Send" @click.stop.prevent="submitText"/>
             </form>
         </div>
     </div>
@@ -42,5 +39,34 @@
 </script>
 
 <style scoped>
+
+    .container {
+        text-align: center;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+
+    .namebox {
+        margin-top: 10%;
+        padding: 0.5em 1em;
+        height: 50%;
+        font-size: 15px;
+    }
+
+    .content {
+        margin-top: 10%;
+    }
+
+    .brk-btn {
+        margin-top: 10%;
+        position: relative;
+        background: none;
+        color: black;
+        font-size: 15px;
+        text-decoration: none;
+        border: 0.2em solid black;
+        padding: 0.5em 1em;
+    }
 
 </style>
