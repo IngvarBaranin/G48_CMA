@@ -29,7 +29,7 @@
             </div>
 
             <div class="startGame">
-                <button v-on:click="runGame()">Start game</button>
+                <button class="brk-btn" v-on:click="runGame()">Start game</button>
             </div>
         </div>
 
@@ -446,6 +446,54 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    .brk-btn {
+        margin: 5%;
+        position: relative;
+        background: none;
+        color: black;
+        font-size: 2vh;
+        text-decoration: none;
+        border: 0.2em solid #ec9821;
+        padding: 0.5em 1em;
+        height: 50%;
+    }
+
+    .brk-btn::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 10%;
+        background: #ffffff;
+        height: 0.3em;
+        right: 20%;
+        top: -0.21em;
+        transform: skewX(-45deg);
+        -webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+        transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .brk-btn::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 10%;
+        background: #ffffff;
+        height: 0.3em;
+        left: 20%;
+        bottom: -0.25em;
+        transform: skewX(45deg);
+        -webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
+        transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .brk-btn:hover:before {
+        right: 80%;
+    }
+
+    .brk-btn:hover:after {
+        left: 80%;
     }
 
 </style>
