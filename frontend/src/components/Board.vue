@@ -36,7 +36,7 @@
             </div>
 
             <div class="startGame">
-                <button class="brk-btn" id="brk-btn-bigger" v-on:click="runGame()">Alusta</button>
+                <button v-if="host && !gameStarted" class="brk-btn" id="brk-btn-bigger" v-on:click="runGame()">Alusta</button>
                 <button class="brk-btn" id="brk-btn-bigger" v-on:click="showInstructions()">Juhised</button>
             </div>
         </div>
