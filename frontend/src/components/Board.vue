@@ -23,7 +23,7 @@
             <img v-for="(user, index) in users" :key="index" v-bind:id="'piece' + index" class="piece">
             <div v-if="gameStarted" id="card">
                 <h1 id="title">Jutustamine</h1>
-                <h2>Mis on sinu kõige varasem mälestus?</h2>
+                <h2 id="question">Mis on sinu kõige varasem mälestus?</h2>
                 <div id="rate">
                     <button v-on:click="movePiece(currentPlayer, 1)">1</button>
                     <button v-on:click="movePiece(currentPlayer, 2)">2</button>
@@ -44,41 +44,57 @@
         data: function () {
             return {
                 positions: [
-                    {id: 0, offsetLeft: 0, offsetTop: 0, type: "jutt"},
-                    {id: 1, offsetLeft: 7.4, offsetTop: 86.8, type: "jutt"},
-                    {id: 2, offsetLeft: 9.7, offsetTop: 79, type: "tegu"},
-                    {id: 3, offsetLeft: 12.2, offsetTop: 71.8, type: "jutt"},
-                    {id: 4, offsetLeft: 14.3, offsetTop: 64, type: "pakkumine"},
-                    {id: 5, offsetLeft: 19.7, offsetTop: 62.6, type: "võistlus"},
-                    {id: 6, offsetLeft: 22.2, offsetTop: 70, type: "tegu"},
-                    {id: 7, offsetLeft: 25.5, offsetTop: 76.8, type: "tegu"},
-                    {id: 8, offsetLeft: 28.9, offsetTop: 82.9, type: "jutt"},
-                    {id: 9, offsetLeft: 33.8, offsetTop: 87, type: "jutt"},
-                    {id: 10, offsetLeft: 39.1, offsetTop: 86.1, type: "tegu"},
-                    {id: 11, offsetLeft: 40.5, offsetTop: 78.2, type: "jutt"},
-                    {id: 12, offsetLeft: 43.8, offsetTop: 72, type: "tegu"},
-                    {id: 13, offsetLeft: 47.7, offsetTop: 66.2, type: "pakkumine"},
-                    {id: 14, offsetLeft: 51.7, offsetTop: 60.3, type: "tegu"},
-                    {id: 15, offsetLeft: 56.7, offsetTop: 57.1, type: "tühi"},
-                    {id: 16, offsetLeft: 61.0, offsetTop: 61.5, type: "jutt"},
-                    {id: 17, offsetLeft: 63.8, offsetTop: 69, type: "jutt"},
-                    {id: 18, offsetLeft: 65.8, offsetTop: 76.4, type: "võistlus"},
-                    {id: 19, offsetLeft: 68.9, offsetTop: 83.4, type: "tegu"},
-                    {id: 20, offsetLeft: 74.4, offsetTop: 82.7, type: "pakkumine"},
-                    {id: 21, offsetLeft: 76, offsetTop: 75.2, type: "lubadus"},
-                    {id: 22, offsetLeft: 79.9, offsetTop: 69.3, type: "tühi"},
-                    {id: 23, offsetLeft: 85.4, offsetTop: 69.6, type: "tühi"},
-                    {id: 24, offsetLeft: 90.7, offsetTop: 72.1, type: "jutt"},
-                    {id: 25, offsetLeft: 92.6, offsetTop: 64.7, type: "pakkumine"},
-                    {id: 26, offsetLeft: 91.6, offsetTop: 56.7, type: "võistlus"},
-                    {id: 27, offsetLeft: 87.0, offsetTop: 51.5, type: "lubadus"},
-                    {id: 28, offsetLeft: 82.2, offsetTop: 48, type: "võistlus"},
-                    {id: 29, offsetLeft: 77.0, offsetTop: 45.5, type: "võistlus"},
-                    {id: 30, offsetLeft: 71.6, offsetTop: 43.1, type: "tegu"},
-                    {id: 31, offsetLeft: 66.4, offsetTop: 40.9, type: "lubadus"},
-                    {id: 32, offsetLeft: 62.1, offsetTop: 35.6, type: "pakkumine"},
-                    {id: 33, offsetLeft: 65.5, offsetTop: 28.6, type: "võistlus"},
-                    {id: 34, offsetLeft: 69.7, offsetTop: 23.6, type: "pilt"}
+                    {id: 0, offsetLeft: 0,      offsetTop: 0,       type: "Jutustamine"},
+                    {id: 1, offsetLeft: 7.4,    offsetTop: 86.8,    type: "Jutustamine"},
+                    {id: 2, offsetLeft: 9.7,    offsetTop: 79,      type: "Tegevus"},
+                    {id: 3, offsetLeft: 12.2,   offsetTop: 71.8,    type: "Jutustamine"},
+                    {id: 4, offsetLeft: 14.3,   offsetTop: 64,      type: "Pakkumine"},
+                    {id: 5, offsetLeft: 19.7,   offsetTop: 62.6,    type: "Võistlus"},
+                    {id: 6, offsetLeft: 22.2,   offsetTop: 70,      type: "Tegevus"},
+                    {id: 7, offsetLeft: 25.5,   offsetTop: 76.8,    type: "Tegevus"},
+                    {id: 8, offsetLeft: 28.9,   offsetTop: 82.9,    type: "Jutustamine"},
+                    {id: 9, offsetLeft: 33.8,   offsetTop: 87,      type: "Jutustamine"},
+                    {id: 10, offsetLeft: 39.1,  offsetTop: 86.1,    type: "Tegevus"},
+                    {id: 11, offsetLeft: 40.5,  offsetTop: 78.2,    type: "Jutustamine"},
+                    {id: 12, offsetLeft: 43.8,  offsetTop: 72,      type: "Tegevus"},
+                    {id: 13, offsetLeft: 47.7,  offsetTop: 66.2,    type: "Pakkumine"},
+                    {id: 14, offsetLeft: 51.7,  offsetTop: 60.3,    type: "Tegevus"},
+                    {id: 15, offsetLeft: 56.7,  offsetTop: 57.1,    type: "Tühi"},
+                    {id: 16, offsetLeft: 61.0,  offsetTop: 61.5,    type: "Jutustamine"},
+                    {id: 17, offsetLeft: 63.8,  offsetTop: 69,      type: "Jutustamine"},
+                    {id: 18, offsetLeft: 65.8,  offsetTop: 76.4,    type: "Võistlus"},
+                    {id: 19, offsetLeft: 68.9,  offsetTop: 83.4,    type: "Tegevus"},
+                    {id: 20, offsetLeft: 74.4,  offsetTop: 82.7,    type: "Pakkumine"},
+                    {id: 21, offsetLeft: 76,    offsetTop: 75.2,    type: "Lubadus"},
+                    {id: 22, offsetLeft: 79.9,  offsetTop: 69.3,    type: "Tühi"},
+                    {id: 23, offsetLeft: 85.4,  offsetTop: 69.6,    type: "Tühi"},
+                    {id: 24, offsetLeft: 90.7,  offsetTop: 72.1,    type: "Jutustamine"},
+                    {id: 25, offsetLeft: 92.6,  offsetTop: 64.7,    type: "Pakkumine"},
+                    {id: 26, offsetLeft: 91.6,  offsetTop: 56.7,    type: "Võistlus"},
+                    {id: 27, offsetLeft: 87.0,  offsetTop: 51.5,    type: "Lubadus"},
+                    {id: 28, offsetLeft: 82.2,  offsetTop: 48,      type: "Võistlus"},
+                    {id: 29, offsetLeft: 77.0,  offsetTop: 45.5,    type: "Võistlus"},
+                    {id: 30, offsetLeft: 71.6,  offsetTop: 43.1,    type: "Tegevus"},
+                    {id: 31, offsetLeft: 66.4,  offsetTop: 40.9,    type: "Lubadus"},
+                    {id: 32, offsetLeft: 62.1,  offsetTop: 35.6,    type: "Pakkumine"},
+                    {id: 33, offsetLeft: 65.5,  offsetTop: 28.6,    type: "Võistlus"},
+                    {id: 34, offsetLeft: 69.7,  offsetTop: 23.6,    type: "Pilt"}
+                ],
+                categories: [
+                    {type: "Jutustamine",
+                    questions: [
+                        "Mis on sinu suurim eesmärk, mille oled täitnud?",
+                        "Mis on sinu suurim eesmärk, mida tahad saavutada?",
+                        "Mis on suurim eesmärk, mis sinu sõber/tuttav on saavutanud?",
+                        "Milline inimene on ideaalne sina?",
+                        "Kui sa saaksid viibutada võlukeppi ja muuta oma elus ühte asja, siis mis see oleks?",
+                        "Milline on sinu ideaalne kaaslane?",
+                        "Kirjelda enda unistuste päeva.",
+                        "Mida kirjutaksid enda hauakivile?",
+                        "Kirjelda, kuidas sooviksid surra.",
+                        "Millist elu sooviksid elada?",
+                        "Milline näeb välja sinu ideaalne elukoht?",
+                    ]}
                 ],
                 pieces: [
                     {id: 0, howFar: 0},
@@ -143,14 +159,7 @@
                 var vm = this;
                 vm.gameStarted = true;
 
-                setTimeout(function (){
-
-                    const title = document.getElementById("title");
-                    var howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
-
-                    title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " " + vm.users[vm.currentPlayer];
-
-                }, 100);
+                this.updateCardData();
             },
             updateCardData: function () {
                 var vm = this;
@@ -159,7 +168,7 @@
                     const title = document.getElementById("title");
                     var howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
 
-                    title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " " + vm.users[vm.currentPlayer];
+                    title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " (" + vm.users[vm.currentPlayer] + ")";
 
                 }, 100);
             },
@@ -198,7 +207,7 @@
     #card {
         z-index: 1;
         position: absolute;
-        background-color: white;
+        background-color: #f4f5f6;
         top: 0%;
         left: 0%;
         width: 50%;
