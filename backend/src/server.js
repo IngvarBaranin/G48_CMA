@@ -11,6 +11,7 @@ http.listen(8090, function () {
 });
 
 let lobbies = {};
+let move = {player: 0, steps: 0};
 
 server.get("/", (req, res) => {
     res.send("hello this is default text in box");
@@ -58,6 +59,24 @@ server.get("/lobby/:id", (req, res) => {
     }
 });
 
+server.post("/game/:id", (req, res) =>{
+    try {
+        setMove(req.body.player, req.body.steps);
+        res.send(move);
+    } catch (e) {
+        res.status(422).send(e);
+    }
+});
+
+server.get("/game/:id", (req, res) =>{
+    console.log(`Get move ${req.params.id} info`);
+    try {
+        res.send(move);
+    } catch (e) {
+        res.status(422).send(e);
+    }
+});
+
 /**
  * Get lobby or throw error if lobby does not exist
  * @param lobbyId
@@ -70,6 +89,11 @@ function getLobby(lobbyId, res) {
     } else {
         return lobby;
     }
+}
+
+function setMove(player, steps){
+    move.player = player;
+    move.steps = steps;
 }
 
 function createLobby() {

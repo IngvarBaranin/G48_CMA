@@ -24,11 +24,11 @@
                 <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
-            <div class="nicknames" style="margin-bottom: 3vh">
-                <p id = "infoText"> Ruumi kood: <br></p>
-                <p id = "bigInfoText" style="margin-bottom: 3vh"><strong> {{this.$route.params.id}} </strong></p>
-                <p id = "infoText"> Rahvas ruumis: </p>
-                <p id = "bigInfoText" v-for="user in users" :key="user"> <strong> {{ user }} </strong> </p>
+            <div class="nicknames" style="margin-bottom: 5vh">
+                <p id="infoText"> Ruumi kood: <br></p>
+                <p id="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
+                <p id="infoText"> Rahvas ruumis: </p>
+                <p id="bigInfoText" v-for="user in users" :key="user"><strong> {{ user }} </strong></p>
             </div>
 
             <div class="startGame">
@@ -50,41 +50,41 @@
         data: function () {
             return {
                 positions: [
-                    {id: 0, offsetLeft: 0,      offsetTop: 0,       type: "Algus"},
-                    {id: 1, offsetLeft: 7.4,    offsetTop: 86.8,    type: "Jutustamine"},
-                    {id: 2, offsetLeft: 9.7,    offsetTop: 79,      type: "Tegevus"},
-                    {id: 3, offsetLeft: 12.2,   offsetTop: 71.8,    type: "Jutustamine"},
-                    {id: 4, offsetLeft: 14.3,   offsetTop: 64,      type: "Pakkumine"},
-                    {id: 5, offsetLeft: 19.7,   offsetTop: 62.6,    type: "Võistlus"},
-                    {id: 6, offsetLeft: 22.2,   offsetTop: 70,      type: "Tegevus"},
-                    {id: 7, offsetLeft: 25.5,   offsetTop: 76.8,    type: "Tegevus"},
-                    {id: 8, offsetLeft: 28.9,   offsetTop: 82.9,    type: "Jutustamine"},
-                    {id: 9, offsetLeft: 33.8,   offsetTop: 87,      type: "Jutustamine"},
-                    {id: 10, offsetLeft: 39.1,  offsetTop: 86.1,    type: "Tegevus"},
-                    {id: 11, offsetLeft: 40.5,  offsetTop: 78.2,    type: "Jutustamine"},
-                    {id: 12, offsetLeft: 43.8,  offsetTop: 72,      type: "Tegevus"},
-                    {id: 13, offsetLeft: 47.7,  offsetTop: 66.2,    type: "Pakkumine"},
-                    {id: 14, offsetLeft: 51.7,  offsetTop: 60.3,    type: "Tegevus"},
-                    {id: 15, offsetLeft: 56.7,  offsetTop: 57.1,    type: "Tühi"},
-                    {id: 16, offsetLeft: 61.0,  offsetTop: 61.5,    type: "Jutustamine"},
-                    {id: 17, offsetLeft: 63.8,  offsetTop: 69,      type: "Jutustamine"},
-                    {id: 18, offsetLeft: 65.8,  offsetTop: 76.4,    type: "Võistlus"},
-                    {id: 19, offsetLeft: 68.9,  offsetTop: 83.4,    type: "Tegevus"},
-                    {id: 20, offsetLeft: 74.4,  offsetTop: 82.7,    type: "Pakkumine"},
-                    {id: 21, offsetLeft: 76,    offsetTop: 75.2,    type: "Lubadus"},
-                    {id: 22, offsetLeft: 79.9,  offsetTop: 69.3,    type: "Tühi"},
-                    {id: 23, offsetLeft: 85.4,  offsetTop: 69.6,    type: "Tühi"},
-                    {id: 24, offsetLeft: 90.7,  offsetTop: 72.1,    type: "Jutustamine"},
-                    {id: 25, offsetLeft: 92.6,  offsetTop: 64.7,    type: "Pakkumine"},
-                    {id: 26, offsetLeft: 91.6,  offsetTop: 56.7,    type: "Võistlus"},
-                    {id: 27, offsetLeft: 87.0,  offsetTop: 51.5,    type: "Lubadus"},
-                    {id: 28, offsetLeft: 82.2,  offsetTop: 48,      type: "Võistlus"},
-                    {id: 29, offsetLeft: 77.0,  offsetTop: 45.5,    type: "Võistlus"},
-                    {id: 30, offsetLeft: 71.6,  offsetTop: 43.1,    type: "Tegevus"},
-                    {id: 31, offsetLeft: 66.4,  offsetTop: 40.9,    type: "Lubadus"},
-                    {id: 32, offsetLeft: 62.1,  offsetTop: 35.6,    type: "Pakkumine"},
-                    {id: 33, offsetLeft: 65.5,  offsetTop: 28.6,    type: "Võistlus"},
-                    {id: 34, offsetLeft: 69.7,  offsetTop: 23.6,    type: "Pilt"}
+                    {id: 0, offsetLeft: 0, offsetTop: 0, type: "Algus"},
+                    {id: 1, offsetLeft: 7.4, offsetTop: 86.8, type: "Jutustamine"},
+                    {id: 2, offsetLeft: 9.7, offsetTop: 79, type: "Tegevus"},
+                    {id: 3, offsetLeft: 12.2, offsetTop: 71.8, type: "Jutustamine"},
+                    {id: 4, offsetLeft: 14.3, offsetTop: 64, type: "Pakkumine"},
+                    {id: 5, offsetLeft: 19.7, offsetTop: 62.6, type: "Võistlus"},
+                    {id: 6, offsetLeft: 22.2, offsetTop: 70, type: "Tegevus"},
+                    {id: 7, offsetLeft: 25.5, offsetTop: 76.8, type: "Tegevus"},
+                    {id: 8, offsetLeft: 28.9, offsetTop: 82.9, type: "Jutustamine"},
+                    {id: 9, offsetLeft: 33.8, offsetTop: 87, type: "Jutustamine"},
+                    {id: 10, offsetLeft: 39.1, offsetTop: 86.1, type: "Tegevus"},
+                    {id: 11, offsetLeft: 40.5, offsetTop: 78.2, type: "Jutustamine"},
+                    {id: 12, offsetLeft: 43.8, offsetTop: 72, type: "Tegevus"},
+                    {id: 13, offsetLeft: 47.7, offsetTop: 66.2, type: "Pakkumine"},
+                    {id: 14, offsetLeft: 51.7, offsetTop: 60.3, type: "Tegevus"},
+                    {id: 15, offsetLeft: 56.7, offsetTop: 57.1, type: "Tühi"},
+                    {id: 16, offsetLeft: 61.0, offsetTop: 61.5, type: "Jutustamine"},
+                    {id: 17, offsetLeft: 63.8, offsetTop: 69, type: "Jutustamine"},
+                    {id: 18, offsetLeft: 65.8, offsetTop: 76.4, type: "Võistlus"},
+                    {id: 19, offsetLeft: 68.9, offsetTop: 83.4, type: "Tegevus"},
+                    {id: 20, offsetLeft: 74.4, offsetTop: 82.7, type: "Pakkumine"},
+                    {id: 21, offsetLeft: 76, offsetTop: 75.2, type: "Lubadus"},
+                    {id: 22, offsetLeft: 79.9, offsetTop: 69.3, type: "Tühi"},
+                    {id: 23, offsetLeft: 85.4, offsetTop: 69.6, type: "Tühi"},
+                    {id: 24, offsetLeft: 90.7, offsetTop: 72.1, type: "Jutustamine"},
+                    {id: 25, offsetLeft: 92.6, offsetTop: 64.7, type: "Pakkumine"},
+                    {id: 26, offsetLeft: 91.6, offsetTop: 56.7, type: "Võistlus"},
+                    {id: 27, offsetLeft: 87.0, offsetTop: 51.5, type: "Lubadus"},
+                    {id: 28, offsetLeft: 82.2, offsetTop: 48, type: "Võistlus"},
+                    {id: 29, offsetLeft: 77.0, offsetTop: 45.5, type: "Võistlus"},
+                    {id: 30, offsetLeft: 71.6, offsetTop: 43.1, type: "Tegevus"},
+                    {id: 31, offsetLeft: 66.4, offsetTop: 40.9, type: "Lubadus"},
+                    {id: 32, offsetLeft: 62.1, offsetTop: 35.6, type: "Pakkumine"},
+                    {id: 33, offsetLeft: 65.5, offsetTop: 28.6, type: "Võistlus"},
+                    {id: 34, offsetLeft: 69.7, offsetTop: 23.6, type: "Pilt"}
                 ],
                 pieces: [
                     {id: 0, howFar: 0},
@@ -104,7 +104,6 @@
         },
         mounted: function () {
             this.updateBoard();
-            this.getuserid();
         },
         methods: {
             showInstructions () {
@@ -172,7 +171,7 @@
                 let vm = this;
                 const elements = document.getElementsByClassName("piece");
 
-                let  step = (2 * Math.PI) / elements.length;
+                let step = (2 * Math.PI) / elements.length;
                 let angle = 0;
 
                 let i;
@@ -201,7 +200,6 @@
                         let isEnd = this.checkForWinner();
 
                         if (isEnd) {
-                            vm.gameOver = true;
                             return
                         }
 
@@ -238,7 +236,7 @@
             },
             updateCardData: function () {
                 let vm = this;
-                setTimeout(function (){
+                setTimeout(function () {
 
                     const title = document.getElementById("title");
                     const question = document.getElementById("question");
@@ -267,13 +265,6 @@
                         this.users = res.data.users.map(user => user.name);
                         setTimeout(() => this.updateBoard(), 2000)
                     });
-            },
-            getuserid: function(){
-                if(localStorage.getItem("userid") != null)
-                {
-                    this.currentuserid = localStorage.getItem("userid");
-                    console.log(this.currentuserid)
-                }
             }
         }
     }
@@ -320,8 +311,8 @@
         width: 50%;
         height: 30%;
 
-        display: flex;           /* establish flex container */
-        flex-direction: column;  /* make main axis vertical */
+        display: flex; /* establish flex container */
+        flex-direction: column; /* make main axis vertical */
         justify-content: center; /* center items vertically, in this case */
         align-items: center;
     }
@@ -339,37 +330,37 @@
     #piece0 {
         top: 94%;
         left: 13%;
-        content:url("../assets/piece0.png")
+        content: url("../assets/piece0.png")
     }
 
     #piece1 {
         top: 94%;
         left: 14%;
-        content:url("../assets/piece1.png")
+        content: url("../assets/piece1.png")
     }
 
     #piece2 {
         top: 94%;
         left: 15%;
-        content:url("../assets/piece2.png")
+        content: url("../assets/piece2.png")
     }
 
     #piece3 {
         top: 94%;
         left: 16%;
-        content:url("../assets/piece3.png")
+        content: url("../assets/piece3.png")
     }
 
     #piece4 {
         top: 94%;
         left: 17%;
-        content:url("../assets/piece4.png")
+        content: url("../assets/piece4.png")
     }
 
     #piece5 {
         top: 94%;
         left: 18%;
-        content:url("../assets/piece5.png")
+        content: url("../assets/piece5.png")
     }
 
     .game {
