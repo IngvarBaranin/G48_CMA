@@ -18,7 +18,7 @@
 
         <div id ="info">
             <div style="margin-bottom: 5vh">
-                <Counter />
+                <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
@@ -164,6 +164,8 @@
                 ],
                 gameStarted: false,
                 currentPlayer: 0,
+                countdownExpired: false,
+                gameOver: false,
                 users: []
             }
 
@@ -172,6 +174,41 @@
             this.updateBoard();
         },
         methods: {
+            expireCountdown () {
+                let vm = this;
+
+                if (!vm.gameOver) {
+                    let farthestDistance = 0;
+                    let winners = [];
+
+                    for (let i = 0; i < vm.pieces.length; i++) {
+                        if (vm.pieces[i].howFar > farthestDistance) {
+                            farthestDistance = vm.pieces[i].howFar;
+                        }
+                    }
+
+                    for (let i = 0; i < vm.pieces.length; i++) {
+                        if (vm.pieces[i].howFar == farthestDistance) {
+                            winners.push(vm.users[i])
+                        }
+                    }
+
+                    const title = document.getElementById("title");
+                    const question = document.getElementById("question");
+
+                    document.getElementById("rate").style.display = "none";
+
+                    if (winners.length > 1) {
+                        let winnerStr = winners.join(" ja ");
+                        title.innerHTML = "Võitis " + winnerStr;
+                    }
+
+                    question.innerHTML = "Aitäh, et mängisite!";
+                }
+
+
+                this.countdownExpired = true;
+            },
             randomNumber: function (max) {
                 return Math.floor(Math.random() * Math.floor(max));
             },
@@ -208,6 +245,7 @@
                         let isEnd = this.checkForWinner();
 
                         if (isEnd) {
+                            vm.gameOver = true;
                             return
                         }
 
