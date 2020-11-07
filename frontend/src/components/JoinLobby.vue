@@ -13,6 +13,7 @@
 
 <script>
     import axios from 'axios';
+    import storage from '../storage';
 
     export default {
         name: 'JoinLobby',
@@ -29,14 +30,13 @@
 
                 axios.post("/lobby", {id: this.codeInput, user: {name: this.nameInput}})
                     .then(res => {
+                        storage.userId = res.data.user.userId;
+                        console.log("Set storage to " + storage);
                         this.$router.push("/game/" + res.data.id);
-
-                        let userid = res.data.user.userid;
-                        localStorage.setItem("userid", userid);
-
-                    }).catch(e => {
-                    alert(e.response.data.error)
-                });
+                    })
+                    .catch(e => {
+                        alert(e.response.data.error)
+                    });
             }
         }
     }

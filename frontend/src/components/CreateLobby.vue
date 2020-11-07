@@ -14,6 +14,7 @@
 
 <script>
     import axios from 'axios';
+    import storage from "../storage";
 
     export default {
         name: 'CreateLobby',
@@ -27,6 +28,8 @@
                 event.preventDefault();
                 axios.put("/lobby", {name: this.nameInput})
                     .then(res => {
+                        storage.userId = res.data.user.userId;
+                        console.log("Set storage to " + storage);
                         this.$router.push("/game/" + res.data.id);
                     });
 

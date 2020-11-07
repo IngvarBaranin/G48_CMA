@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 const http = require('http').createServer(server);
 const cors = require('cors');
+const questions = require('./questions.json');
 
 server.use(cors({origin: "http://localhost:8080"}));
 server.use(express.json());
@@ -23,10 +24,10 @@ server.put("/lobby", (req, res) => {
     lobbies[lobby.id] = lobby;
 
     const currentUser = joinLobby(lobby.id, req.body);
+    lobby.user = currentUser;
+    lobby.host = currentUser.userId;
 
     console.log(`Created lobby ${JSON.stringify(lobby)}`);
-
-    lobby.user = currentUser;
     res.send(lobby);
 });
 
@@ -61,17 +62,19 @@ server.get("/lobby/:id", (req, res) => {
 
 server.post("/game/:id", (req, res) =>{
     try {
-        setMove(req.body.player, req.body.steps);
-        res.send(move);
-    } catch (e) {
-        res.status(422).send(e);
-    }
-});
-
-server.get("/game/:id", (req, res) =>{
-    console.log(`Get move ${req.params.id} info`);
-    try {
-        res.send(move);
+        console.log("Got event ", req.body);
+        const lobby = getLobby(req.params.id);
+        switch (req.body.event) {
+            case "start":
+                startGame(lobby);
+                break;
+            case "positionUpdate":
+                setMove(lobby, req.body.userId, req.body.position);
+                break;
+            default:
+                return res.status(422).send({error: "Unknown event " + req.body.event});
+        }
+        res.send(lobby);
     } catch (e) {
         res.status(422).send(e);
     }
@@ -91,9 +94,24 @@ function getLobby(lobbyId, res) {
     }
 }
 
-function setMove(player, steps){
-    move.player = player;
-    move.steps = steps;
+function startGame(lobby) {
+    lobby.currentQuestionType = "Algus";
+    lobby.currentQuestion = questions["Algus"][0];
+    lobby.currentAnswerer = lobby.users[0];
+}
+
+function setMove(lobby, userId, position) {
+    const user = findUser(lobby.users, userId);
+    user.position = position;
+}
+
+function findUser(players, playerId) {
+    for (let player of players) {
+        if (player.userId === playerId) {
+            return player;
+        }
+    }
+    throw {error: "Could not find player " + playerId};
 }
 
 function createLobby() {
@@ -104,16 +122,24 @@ function createLobby() {
 }
 
 function joinLobby(lobbyId, user) {
-    let userdata = {name: user.name, userid: makeid(4)};
+    let userdata = {
+        name: user.name,
+        userId: makeid(4),
+        position: 0
+    };
     lobbies[lobbyId].users.push(userdata);
     return userdata;
 }
 
+function randomNumber(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;

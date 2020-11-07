@@ -3,10 +3,14 @@
 
         <div class="gamecontainer">
             <img class="board" src="../assets/Gameboard.png">
-            <img v-for="(user, index) in users" :key="index" v-bind:id="'piece' + index" class="piece">
+            <img v-for="(user, index) in users"
+                 :key="index"
+                 v-bind:id="'piece' + index"
+                 class="piece"
+                 :ref="'piece' + index">
             <div v-if="gameStarted" id="card">
-                <h1 id="title">Jutustamine</h1>
-                <h2 id="question">Mis on sinu kõige varasem mälestus?</h2>
+                <h1>{{currentQuestionType}}</h1>
+                <h2>{{currentQuestion}}</h2>
                 <div id="rate">
                     <button v-on:click="movePiece(currentPlayer, 1)">1</button>
                     <button v-on:click="movePiece(currentPlayer, 2)">2</button>
@@ -25,10 +29,10 @@
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
-                <p id="infoText"> Ruumi kood: <br></p>
-                <p id="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
-                <p id="infoText"> Rahvas ruumis: </p>
-                <p id="bigInfoText" v-for="user in users" :key="user"><strong> {{ user }} </strong></p>
+                <p class="infoText"> Ruumi kood: <br></p>
+                <p class="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
+                <p class="infoText"> Rahvas ruumis: </p>
+                <p class="bigInfoText" v-for="user in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
             </div>
 
             <div class="startGame">
@@ -42,6 +46,7 @@
 <script>
     import axios from "axios";
     import Counter from "./Counter.vue"
+    import storage from "../storage"
 
     export default {
         components: {
@@ -96,14 +101,17 @@
                 ],
                 gameStarted: false,
                 currentPlayer: 0,
+                users: [],
                 countdownExpired: false,
-                gameOver: false,
-                users: []
+                currentQuestionType: "",
+                currentQuestion: "",
+                host: false
             }
 
         },
         mounted: function () {
-            this.updateBoard();
+            console.log(storage.userId);
+            this.updateBoard(true);
         },
         methods: {
             showInstructions () {
@@ -168,50 +176,41 @@
                 return Math.floor(Math.random() * Math.floor(max));
             },
             movePiece: function (whichPiece, nrOfSteps) {
-                let vm = this;
-                const elements = document.getElementsByClassName("piece");
+                axios.post("/game/" + this.$route.params.id, {
+                    event: "positionUpdate",
+                    userId: storage.userId,
+                    position: this.users[whichPiece].position + nrOfSteps})
+                    .then(() => {
 
-                let step = (2 * Math.PI) / elements.length;
-                let angle = 0;
+                    });
 
-                let i;
-                for (i = 0; i < elements.length; i++) {
-                    if (whichPiece === i) {
+                this.setPiecePosition(whichPiece, this.users[whichPiece].position + nrOfSteps)
+            },
+            setPiecePosition: function (pieceIndex, position) {
+                console.log(this.users);
+                this.users[pieceIndex].position = position;
 
-                        vm.pieces[whichPiece].howFar += nrOfSteps; // Piece is about to move, add nr of steps
-                        const style = getComputedStyle(elements[i]);
+                let step = (2 * Math.PI) / this.users.length;
+                let angle = pieceIndex * step;
 
-                        let leftStyle = style.left.substring(0, style.left.length - 2);
-                        let topStyle = style.top.substring(0, style.top.length - 2);
-                        leftStyle = parseFloat(leftStyle);
-                        topStyle = parseFloat(topStyle);
+                const pieceElements = this.$refs['piece' + pieceIndex];
 
-                        let getTile = Math.min(vm.pieces[whichPiece].howFar, 34);
-                        let getOffsetLeft = vm.positions[getTile].offsetLeft;
-                        let getOffsetTop = vm.positions[getTile].offsetTop;
-
-                        let x = -2 * Math.cos(angle);
-                        let y = -2 * 1.5 * Math.sin(angle);
-
-
-                        elements[i].style.left = (parseFloat(getOffsetLeft) + x) + "%";
-                        elements[i].style.top = (parseFloat(getOffsetTop) + y) + "%";
-
-                        let isEnd = this.checkForWinner();
-
-                        if (isEnd) {
-                            return
-                        }
-
-                        vm.currentPlayer++;
-
-                        if (vm.currentPlayer >= vm.users.length) {
-                            vm.currentPlayer = 0;
-                        }
-                    }
-                    angle += step;
+                // If we did not find piece element (it has not been rendered yet), skip modifying it
+                if (pieceElements === undefined || pieceElements.length === 0) {
+                    return;
                 }
-                this.updateCardData();
+
+                const pieceElement = pieceElements[0];
+
+                let getTile = Math.min(this.users[pieceIndex].position, 34);
+                let getOffsetLeft = this.positions[getTile].offsetLeft;
+                let getOffsetTop = this.positions[getTile].offsetTop;
+
+                let x = -2 * Math.cos(angle);
+                let y = -2 * 1.5 * Math.sin(angle);
+
+                pieceElement.style.left = (parseFloat(getOffsetLeft) + x) + "%";
+                pieceElement.style.top = (parseFloat(getOffsetTop) + y) + "%";
             },
             checkForWinner: function () {
                 let vm = this;
@@ -222,49 +221,54 @@
                     document.getElementById("rate").style.display = "none";
 
                     question.innerHTML = "Aitäh, et mängisite!";
-                    title.innerHTML = vm.users[vm.currentPlayer] + " võitis!"
+                    title.innerHTML = vm.users[vm.currentPlayer] + " võitis!";
 
                     return true;
                 }
                 return false;
             },
             runGame: function () {
-                let vm = this;
-                vm.gameStarted = true;
-
-                this.updateCardData();
+                axios.post("/game/" + this.$route.params.id, {
+                    event: "start",
+                })
+                    .then(res => {
+                        this.currentQuestionType =
+                            res.data.currentQuestionType + " (" + res.data.currentAnswerer.name + ")";
+                        this.currentQuestion = res.data.currentQuestion;
+                        this.gameStarted = true;
+                    });
             },
-            updateCardData: function () {
-                let vm = this;
-                setTimeout(function () {
-
-                    const title = document.getElementById("title");
-                    const question = document.getElementById("question");
-
-                    let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
-                    let questionType = vm.positions[howFarIsCurrentPlayer].type;
-
-                    let randomQuestion = "do you like to cook a food?"
-
-                    for (let i = 0; i < vm.categories.length; i++) {
-                        if (vm.categories[i].type === questionType) {
-
-                            let random = vm.randomNumber(vm.categories[i].questions.length);
-                            randomQuestion = vm.categories[i].questions[random];
-                        }
-                    }
-
-                    question.innerHTML = randomQuestion;
-                    title.innerHTML = questionType + " (" + vm.users[vm.currentPlayer] + ")";
-
-                }, 100);
-            },
-            updateBoard: function () {
+            updateBoard: function (loop = false) {
                 axios.get("/lobby/" + this.$route.params.id)
                     .then(res => {
-                        this.users = res.data.users.map(user => user.name);
-                        setTimeout(() => this.updateBoard(), 2000)
+                        this.users = res.data.users;
+
+                        // Only show the start game button to the lobby host
+                        this.host = res.data.host === storage.userId;
+
+                        if (res.data.currentQuestion !== undefined) {
+                            this.currentQuestionType =
+                                res.data.currentQuestionType + " (" + res.data.currentAnswerer.name + ")";
+                            this.currentQuestion = res.data.currentQuestion;
+                            this.gameStarted = true;
+                            this.rerenderBoard();
+                        }
+
+                        if (loop) {
+                            setTimeout(() => this.updateBoard(loop), 2000)
+                        }
                     });
+            },
+            rerenderBoard: function () {
+                let i = 0;
+                for (let user of this.users) {
+                    // Skip users with position 0 as we want them to stay in the starting line
+                    if (user.position === 0) {
+                        continue;
+                    }
+                    this.setPiecePosition(i, user.position);
+                    i++;
+                }
             }
         }
     }
@@ -277,11 +281,11 @@
 
     }
 
-    #infoText {
+    .infoText {
         font-size: 3vh;
     }
 
-    #bigInfoText {
+    .bigInfoText {
         font-size: 6vh;
     }
 
@@ -306,8 +310,8 @@
         z-index: 1;
         position: absolute;
         background-color: #f4f5f6;
-        top: 0%;
-        left: 0%;
+        top: 0;
+        left: 0;
         width: 50%;
         height: 30%;
 
