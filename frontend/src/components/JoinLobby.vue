@@ -5,7 +5,7 @@
             <form>
                 <input class="namebox" type="text" v-model="nameInput" placeholder="Username"/>
                 <input class="namebox" type="text" v-model="codeInput" placeholder="Code"/>
-                <input class="brk-btn" type="submit" value="Send" @click.stop.prevent="submitText"/>
+                <input class="brk-btn" type="submit" value="Join" @click.stop.prevent="submitText"/>
             </form>
         </div>
     </div>
