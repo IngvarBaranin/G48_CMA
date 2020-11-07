@@ -1,31 +1,14 @@
 <template>
     <div id="container">
-        <button @click = "joinLobby"> Join Lobby </button>
-        <button @click = "createLobby"> Create Lobby </button>
-        <component :is="currentComponent"></component>
+        <button @click="$router.push('/')"> Join Lobby </button>
+        <button @click="$router.push('/create')"> Create Lobby </button>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import CreateLobby from "./CreateLobby";
-    import JoinLobby from "./JoinLobby";
-
     export default {
         name: 'ChooseLobby',
-        components: {CreateLobby, JoinLobby},
-        data: function () {
-            return {
-                currentComponent: CreateLobby
-            }
-        },
-        methods: {
-            createLobby: function () {
-                this.currentComponent = CreateLobby;
-            },
-            joinLobby: function () {
-                this.currentComponent = JoinLobby;
-            }
-        }
     }
 </script>
 

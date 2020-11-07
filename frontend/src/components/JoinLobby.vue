@@ -2,8 +2,6 @@
     <div class="container">
         <h1>Join Lobby</h1>
         <div id="output">
-            <h1>{{lobbyId}}</h1>
-            <h1>{{players}}</h1>
             <p v-for="(text, index) in textOutput" :key="index">{{text}}</p>
         </div>
         <div id="input">
