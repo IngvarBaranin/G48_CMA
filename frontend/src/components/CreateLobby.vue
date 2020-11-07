@@ -4,7 +4,7 @@
         <div id="input">
             <form>
                 <input type="text" v-model="nameInput" :placeholder="nameInput"/>
-                <input type="submit" value="Send" v-on:click="submitText"/>
+                <input type="submit" value="Send" @click.stop.prevent="submitText"/>
             </form>
         </div>
 
@@ -18,16 +18,12 @@
 
 <script>
     import axios from 'axios';
-    import { EventBus } from '../main.js';
 
     export default {
         name: 'CreateLobby',
         data: function () {
             return {
-                lobbyId: "",
-                players: "",
                 nameInput: "",
-                codeInput: null,
                 textOutput: []
             }
         },
@@ -36,10 +32,9 @@
                 event.preventDefault();
                 axios.put("/lobby", {name: this.nameInput})
                     .then(res => {
-                        this.lobbyId = res.data.id;
-                        this.players = res.data.users;
+                        this.$router.push("/game/"+res.data.id);
                     });
-                EventBus.$emit('i-got-clicked', this.lobbyId);
+
             }
         }
     }

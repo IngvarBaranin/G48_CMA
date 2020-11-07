@@ -8,6 +8,7 @@
             <button v-on:click="movePiece(3)">Move 4</button>
             <button v-on:click="movePiece(4)">Move 5</button>
             <button v-on:click="movePiece(5)">Move 6</button>
+            <p v-for="user in users" :key="user">{{user}}</p>
         </div>
 
         <div class="gamecontainer">
@@ -70,7 +71,8 @@ export default {
                 { id: 3, howFar: 1 },
                 { id: 4, howFar: 1 },
                 { id: 5, howFar: 1 }
-            ]
+            ],
+            users:[]
         }
 
     },
