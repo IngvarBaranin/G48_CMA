@@ -1,0 +1,144 @@
+{
+  "Positions": [
+    {
+      "id": 0,
+      "type": "Algus"
+    },
+    {
+      "id": 1,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 2,
+      "type": "Tegevus"
+    },
+    {
+      "id": 3,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 4,
+      "type": "Pakkumine"
+    },
+    {
+      "id": 5,
+      "type": "Võistlus"
+    },
+    {
+      "id": 6,
+      "type": "Tegevus"
+    },
+    {
+      "id": 7,
+      "type": "Tegevus"
+    },
+    {
+      "id": 8,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 9,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 10,
+      "type": "Tegevus"
+    },
+    {
+      "id": 11,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 12,
+      "type": "Tegevus"
+    },
+    {
+      "id": 13,
+      "type": "Pakkumine"
+    },
+    {
+      "id": 14,
+      "type": "Tegevus"
+    },
+    {
+      "id": 15,
+      "type": "Tühi"
+    },
+    {
+      "id": 16,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 17,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 18,
+      "type": "Võistlus"
+    },
+    {
+      "id": 19,
+      "type": "Tegevus"
+    },
+    {
+      "id": 20,
+      "type": "Pakkumine"
+    },
+    {
+      "id": 21,
+      "type": "Lubadus"
+    },
+    {
+      "id": 22,
+      "type": "Tühi"
+    },
+    {
+      "id": 23,
+      "type": "Tühi"
+    },
+    {
+      "id": 24,
+      "type": "Jutustamine"
+    },
+    {
+      "id": 25,
+      "type": "Pakkumine"
+    },
+    {
+      "id": 26,
+      "type": "Võistlus"
+    },
+    {
+      "id": 27,
+      "type": "Lubadus"
+    },
+    {
+      "id": 28,
+      "type": "Võistlus"
+    },
+    {
+      "id": 29,
+      "type": "Võistlus"
+    },
+    {
+      "id": 30,
+      "type": "Tegevus"
+    },
+    {
+      "id": 31,
+      "type": "Lubadus"
+    },
+    {
+      "id": 32,
+      "type": "Pakkumine"
+    },
+    {
+      "id": 33,
+      "type": "Võistlus"
+    },
+    {
+      "id": 34,
+      "type": "Pilt"
+    }
+  ]
+}

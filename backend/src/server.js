@@ -3,6 +3,7 @@ const server = express();
 const http = require('http').createServer(server);
 const cors = require('cors');
 const questions = require('./questions.json');
+const positions = require('./positions.json');
 
 server.use(cors({origin: "http://localhost:8080"}));
 server.use(express.json());
@@ -71,9 +72,8 @@ server.post("/game/:id", (req, res) =>{
             case "positionUpdate":
                 setMove(lobby, req.body.userId, req.body.position);
                 // TODO: Update answering user and or question to be answered
-                lobby.currentQuestionType = "Jutustamine";
-                lobby.currentQuestion = questions["Jutustamine"][0];
-                lobby.currentAnswerer = 1;
+                switchPlayerAndGenerateNextQuestion(lobby);
+
                 break;
             default:
                 return res.status(422).send({error: "Unknown event " + req.body.event});
@@ -96,6 +96,33 @@ function getLobby(lobbyId, res) {
     } else {
         return lobby;
     }
+}
+
+function switchPlayerAndGenerateNextQuestion(lobby){
+    //Switching player
+    if(lobby.currentAnswerer >= lobby.users.length-1){
+        lobby.currentAnswerer = 0;
+    }else{
+        lobby.currentAnswerer += 1;
+    }
+
+    //Generate new question
+    if(lobby.users[lobby.currentAnswerer].position === 0){
+        lobby.currentQuestionType = "Algus";
+        lobby.currentQuestion = questions["Algus"][0];
+    } else{
+        //Where is the user and what is the topic
+        let topic = getTopic(lobby);
+        console.log("teema", topic);
+        lobby.currentQuestionType = topic;
+        let questionPool = questions[topic].length - 1;
+        lobby.currentQuestion = questions[topic][randomNumber(questionPool)];
+    }
+}
+
+function getTopic(lobby){
+    console.log(lobby.users[lobby.currentAnswerer].position);
+    return positions.Positions[lobby.users[lobby.currentAnswerer].position].type
 }
 
 function startGame(lobby) {
