@@ -62,7 +62,7 @@
     },
     {
       "id": 15,
-      "type": "Tühi"
+      "type": "Võistlus"
     },
     {
       "id": 16,
@@ -90,11 +90,11 @@
     },
     {
       "id": 22,
-      "type": "Tühi"
+      "type": "Tegevus"
     },
     {
       "id": 23,
-      "type": "Tühi"
+      "type": "Jagamine"
     },
     {
       "id": 24,
