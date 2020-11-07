@@ -36,10 +36,12 @@ server.post("/lobby", (req, res) => {
         console.log(lobbies[lobby.id].users.length);
         if (lobbies[lobby.id].users.length < 6){
             joinLobby(req.body.id, req.body.user);
+            console.log(`${JSON.stringify(lobby)} Created lobby ${JSON.stringify(lobby)}`);
             res.send(lobby);
         }
-
-        console.log(`${JSON.stringify(lobby)} Created lobby ${JSON.stringify(lobby)}`);
+        else {
+            res.status(422).send({error: "The lobby is full"});
+        }
     } catch (e) {
         res.status(422).send(e);
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="game">
+    <div class="game" v-if="seen">
         <div class="nicknames">
             <p>Ruumi kood: {{this.$route.params.id}} /</p>
             <p> Rahvas ruumis: </p>
@@ -82,7 +82,8 @@
                     {id: 4, howFar: 1},
                     {id: 5, howFar: 1}
                 ],
-                users: []
+                users: [],
+                seen: true
             }
 
         },
@@ -138,6 +139,10 @@
                     .then(res => {
                         this.users = res.data.users.map(user => user.name);
                         setTimeout(() => this.updateBoard(), 2000)
+                    })
+                    .catch(e => {
+                        this.seen = false;
+                        alert(e.response.data.error);
                     });
             }
         }

@@ -32,8 +32,10 @@
 
                 axios.post("/lobby", {id: this.codeInput, user: {name: this.nameInput}})
                     .then(res => {
-                        this.$router.push("/game/"+res.data.id);
-                    });
+                        this.$router.push("/game/" + res.data.id);
+                    }).catch(e => {
+                    alert(e.response.data.error)
+                });
             }
         }
     }
