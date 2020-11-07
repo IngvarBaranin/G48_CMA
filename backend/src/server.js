@@ -70,6 +70,10 @@ server.post("/game/:id", (req, res) =>{
                 break;
             case "positionUpdate":
                 setMove(lobby, req.body.userId, req.body.position);
+                // TODO: Update answering user and or question to be answered
+                lobby.currentQuestionType = "Jutustamine";
+                lobby.currentQuestion = questions["Jutustamine"][0];
+                lobby.currentAnswerer = 1;
                 break;
             default:
                 return res.status(422).send({error: "Unknown event " + req.body.event});
@@ -97,7 +101,7 @@ function getLobby(lobbyId, res) {
 function startGame(lobby) {
     lobby.currentQuestionType = "Algus";
     lobby.currentQuestion = questions["Algus"][0];
-    lobby.currentAnswerer = lobby.users[0];
+    lobby.currentAnswerer = 0;
 }
 
 function setMove(lobby, userId, position) {

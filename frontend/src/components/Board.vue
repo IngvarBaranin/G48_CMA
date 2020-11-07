@@ -12,10 +12,10 @@
                 <h1>{{currentQuestionType}}</h1>
                 <h2>{{currentQuestion}}</h2>
                 <div id="rate">
-                    <button v-on:click="movePiece(currentPlayer, 1)">1</button>
-                    <button v-on:click="movePiece(currentPlayer, 2)">2</button>
-                    <button v-on:click="movePiece(currentPlayer, 3)">3</button>
-                    <button v-on:click="movePiece(currentPlayer, 4)">4</button>
+                    <button v-on:click="movePiece(1)">1</button>
+                    <button v-on:click="movePiece(2)">2</button>
+                    <button v-on:click="movePiece(3)">3</button>
+                    <button v-on:click="movePiece(4)">4</button>
                 </div>
                 <div>
                     <button v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda küsimus</button>
@@ -100,7 +100,7 @@
                     {id: 5, howFar: 0}
                 ],
                 gameStarted: false,
-                currentPlayer: 0,
+                currentPlayerIndex: 0,
                 users: [],
                 countdownExpired: false,
                 currentQuestionType: "",
@@ -175,16 +175,21 @@
             randomNumber: function (max) {
                 return Math.floor(Math.random() * Math.floor(max));
             },
-            movePiece: function (whichPiece, nrOfSteps) {
+            movePiece: function (nrOfSteps) {
+                const nextPosition = this.users[this.currentPlayerIndex].position + nrOfSteps;
+
                 axios.post("/game/" + this.$route.params.id, {
                     event: "positionUpdate",
-                    userId: storage.userId,
-                    position: this.users[whichPiece].position + nrOfSteps})
-                    .then(() => {
-
+                    userId: this.users[this.currentPlayerIndex].userId,
+                    position: nextPosition})
+                    .then((res) => {
+                        this.currentPlayerIndex = res.data.currentAnswerer;
+                        this.currentQuestionType =
+                            res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
+                        this.currentQuestion = res.data.currentQuestion;
                     });
 
-                this.setPiecePosition(whichPiece, this.users[whichPiece].position + nrOfSteps)
+                this.setPiecePosition(this.currentPlayerIndex, nextPosition)
             },
             setPiecePosition: function (pieceIndex, position) {
                 console.log(this.users);
@@ -232,8 +237,9 @@
                     event: "start",
                 })
                     .then(res => {
+                        this.currentPlayerIndex = res.data.currentAnswerer;
                         this.currentQuestionType =
-                            res.data.currentQuestionType + " (" + res.data.currentAnswerer.name + ")";
+                            res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                         this.currentQuestion = res.data.currentQuestion;
                         this.gameStarted = true;
                     });
@@ -247,8 +253,9 @@
                         this.host = res.data.host === storage.userId;
 
                         if (res.data.currentQuestion !== undefined) {
+                            this.currentPlayerIndex = res.data.currentAnswerer;
                             this.currentQuestionType =
-                                res.data.currentQuestionType + " (" + res.data.currentAnswerer.name + ")";
+                                res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                             this.currentQuestion = res.data.currentQuestion;
                             this.gameStarted = true;
                             this.rerenderBoard();
