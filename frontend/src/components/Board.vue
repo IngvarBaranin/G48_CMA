@@ -1,22 +1,5 @@
 <template>
     <div class="game">
-        <div class="nicknames">
-            <p>Ruumi kood: {{this.$route.params.id}} /</p>
-            <p> Rahvas ruumis: </p>
-            <p v-for="user in users" :key="user"> {{ user }} /</p>
-        </div>
-
-        <div class="buttons">
-            <button v-on:click="movePiece(0, 2)">Move 1</button>
-            <button v-on:click="movePiece(1, 1)">Move 2</button>
-            <button v-on:click="movePiece(2)">Move 3</button>
-            <button v-on:click="movePiece(3)">Move 4</button>
-            <button v-on:click="movePiece(4)">Move 5</button>
-            <button v-on:click="movePiece(5)">Move 6</button>
-            <button v-on:click="runGame()">Start game</button>
-            <button v-on:click="updateCardData()">Make turn</button>
-
-        </div>
 
         <div class="gamecontainer">
             <img class="board" src="../assets/Gameboard.png">
@@ -33,18 +16,39 @@
             </div>
         </div>
 
+        <div id ="info">
+            <div style="margin-bottom: 5vh">
+                <Counter />
+            </div>
+
+            <div class="nicknames" style="margin-bottom: 5vh">
+                <p id = "infoText"> Ruumi kood: <br></p>
+                <p id = "bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
+                <p id = "infoText"> Rahvas ruumis: </p>
+                <p id = "bigInfoText" v-for="user in users" :key="user"> <strong> {{ user }} </strong> </p>
+            </div>
+
+            <div class="startGame">
+                <button v-on:click="runGame()">Start game</button>
+            </div>
+        </div>
+
     </div>
 
 </template>
 
 <script>
     import axios from "axios";
+    import Counter from "./Counter.vue"
 
     export default {
+        components: {
+            Counter
+        },
         data: function () {
             return {
                 positions: [
-                    {id: 0, offsetLeft: 0,      offsetTop: 0,       type: "Jutustamine"},
+                    {id: 0, offsetLeft: 0,      offsetTop: 0,       type: "Algus"},
                     {id: 1, offsetLeft: 7.4,    offsetTop: 86.8,    type: "Jutustamine"},
                     {id: 2, offsetLeft: 9.7,    offsetTop: 79,      type: "Tegevus"},
                     {id: 3, offsetLeft: 12.2,   offsetTop: 71.8,    type: "Jutustamine"},
@@ -81,6 +85,10 @@
                     {id: 34, offsetLeft: 69.7,  offsetTop: 23.6,    type: "Pilt"}
                 ],
                 categories: [
+                    {type: "Algus",
+                    questions: [
+                        "Mis on sinu kõige varasem mälestus?",
+                    ]},
                     {type: "Jutustamine",
                     questions: [
                         "Mis on sinu suurim eesmärk, mille oled täitnud?",
@@ -94,6 +102,56 @@
                         "Kirjelda, kuidas sooviksid surra.",
                         "Millist elu sooviksid elada?",
                         "Milline näeb välja sinu ideaalne elukoht?",
+                    ]},
+                    {type: "Tegevus",
+                    questions: [
+                        "Joonista kolm asja, mille eest oled tänulik.",
+                        "Joonista kaks asja, mis sulle ei meeldi.",
+                        "Joonista enda ägedaim pereliige.",
+                        "Joonista enda unistuste kodu.",
+                        "Kustuta oma postkastist viis ebaolulist meili.",
+                        "Lülita enda telefon mängu ajaks välja.",
+                        "Kustuta enda telefonist üks üleliigne telefoninumber.",
+                        "Kustuta enda telefonist või arvutist kaks kasutut märget.",
+                        "Eemalda enda kalendrist üks ebaoluline tegevus.",
+                        "Kustuta enda telefonist üks rakendus.",
+                        "Tantsi üksi või paarilisega.",
+                        "Hoia ühe minuti vältel planku.",
+                        "Tee enda parim kükk.",
+                        "Tee 10 kätekõverdust."
+                    ]},
+                    {type: "Võistlus",
+                    questions: [
+                        "Kumb suudab 30 sekundi jooksul nimetada rohkem enesearengu raamatuid?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada häid podcaste?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada blogisid, mida lugeda?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada häid harjumusi, mida on hea teha, et ennast arendada?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada heategijaid?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada heategusi, mida teha?",
+                        "Kumb suudab 30 sekundi jooksul rohkem nimetada viise enda ökoloogilise jalajälje vähendamiseks?"
+                    ]},
+                    {type: "Lubadus",
+                    questions: [
+                        "Finants (nt. Loen..., Investeerin..., Ostan..., Koostan eelarve...",
+                        "Tervis (nt. Teen..., Söön..., Magan..., Väldin...)",
+                        "Füüsiline heaolu (nt. Teen..., Väldin..., Trenn..., Toitumine...)",
+                        "Vaimne heaolu (nt. Loen..., Harin..., Puhkan..., Arendan...)",
+                    ]},
+                    {type: "Pakkumine",
+                    questions: [
+                        "Mis isiksusetüüpi teised pigem on - ekstravert-introvert?",
+                        "Mis isiksusetüüpi teised pigem on - spontaanne-planeerija?",
+                        "Mis isiksusetüüpi teised pigem on - detailne-ideederohke?",
+                        "Mis isiksusetüüpi teised pigem on - ideede genereerija-elluviija?",
+                        "Kuidas teised stressi olukorras käituvad- vajab aega üksi, lõbutseb teistega koos?",
+                        "Mida teised eelistavad - raamat, audioraamat, podcast, blogi?",
+                        "Millised teised pigem on - õhtu- või hommikuinimesed?",
+                        "Mida teised pigem õpiksid - reaalained, humanitaarained, loovained?"
+                    ]}
+                    ,
+                    {type: "Tühi",
+                    questions: [
+                        "Antud hetkel vajuta lihtsalt \"1\" :)"
                     ]}
                 ],
                 pieces: [
@@ -114,6 +172,9 @@
             this.updateBoard();
         },
         methods: {
+            randomNumber: function (max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            },
             movePiece: function (whichPiece, nrOfSteps) {
                 let vm = this;
                 const elements = document.getElementsByClassName("piece");
@@ -128,21 +189,27 @@
                         vm.pieces[whichPiece].howFar += nrOfSteps; // Piece is about to move, add nr of steps
                         const style = getComputedStyle(elements[i]);
 
-                        let  leftStyle = style.left.substring(0, style.left.length - 2);
-                        let  topStyle = style.top.substring(0, style.top.length - 2);
+                        let leftStyle = style.left.substring(0, style.left.length - 2);
+                        let topStyle = style.top.substring(0, style.top.length - 2);
                         leftStyle = parseFloat(leftStyle);
                         topStyle = parseFloat(topStyle);
 
-                        let  getTile = vm.pieces[whichPiece].howFar;
-                        let  getOffsetLeft = vm.positions[getTile].offsetLeft;
-                        let  getOffsetTop = vm.positions[getTile].offsetTop;
+                        let getTile = Math.min(vm.pieces[whichPiece].howFar, 34);
+                        let getOffsetLeft = vm.positions[getTile].offsetLeft;
+                        let getOffsetTop = vm.positions[getTile].offsetTop;
 
-                        let  x = -2 * Math.cos(angle);
-                        let  y = -2 * 1.5 * Math.sin(angle);
+                        let x = -2 * Math.cos(angle);
+                        let y = -2 * 1.5 * Math.sin(angle);
 
 
                         elements[i].style.left = (parseFloat(getOffsetLeft) + x) + "%";
                         elements[i].style.top = (parseFloat(getOffsetTop) + y) + "%";
+
+                        let isEnd = this.checkForWinner();
+
+                        if (isEnd) {
+                            return
+                        }
 
                         vm.currentPlayer++;
 
@@ -153,7 +220,21 @@
                     angle += step;
                 }
                 this.updateCardData();
-                console.log(vm.currentPlayer);
+            },
+            checkForWinner: function () {
+                let vm = this;
+                if (vm.pieces[vm.currentPlayer].howFar >= 34) {
+                    const title = document.getElementById("title");
+                    const question = document.getElementById("question");
+
+                    document.getElementById("rate").style.display = "none";
+
+                    question.innerHTML = "Aitäh, et mängisite!";
+                    title.innerHTML = vm.users[vm.currentPlayer] + " võitis!"
+
+                    return true;
+                }
+                return false;
             },
             runGame: function () {
                 let vm = this;
@@ -166,9 +247,23 @@
                 setTimeout(function (){
 
                     const title = document.getElementById("title");
-                    let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
+                    const question = document.getElementById("question");
 
-                    title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " (" + vm.users[vm.currentPlayer] + ")";
+                    let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
+                    let questionType = vm.positions[howFarIsCurrentPlayer].type;
+
+                    let randomQuestion = "do you like to cook a food?"
+
+                    for (let i = 0; i < vm.categories.length; i++) {
+                        if (vm.categories[i].type === questionType) {
+
+                            let random = vm.randomNumber(vm.categories[i].questions.length);
+                            randomQuestion = vm.categories[i].questions[random];
+                        }
+                    }
+
+                    question.innerHTML = randomQuestion;
+                    title.innerHTML = questionType + " (" + vm.users[vm.currentPlayer] + ")";
 
                 }, 100);
             },
@@ -186,6 +281,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .startGame {
+
+    }
+
+    #infoText {
+        font-size: 3vh;
+    }
+
+    #bigInfoText {
+        font-size: 6vh;
+    }
 
     #rate {
         display: flex;
@@ -266,17 +373,24 @@
     }
 
     .game {
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: center;
+        justify-content: space-around;
+
         position: relative;
-        border-style: solid;
         text-align: center;
         overflow: hidden;
         width: 100vw;
-        margin-top: 5vh;
-        height: 95vh;
+        height: 100vh;
     }
 
     .gamecontainer {
         border-style: solid;
+        border-radius: 5px;
+        border-width: thick;
         position: relative;
         display: inline-block;
         height: 90%;
@@ -291,6 +405,7 @@
 
     .nicknames {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
