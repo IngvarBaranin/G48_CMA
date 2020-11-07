@@ -13,23 +13,27 @@
                     <button v-on:click="movePiece(currentPlayer, 3)">3</button>
                     <button v-on:click="movePiece(currentPlayer, 4)">4</button>
                 </div>
+                <div>
+                    <button v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda küsimus</button>
+                </div>
             </div>
         </div>
 
         <div id ="info">
-            <div style="margin-bottom: 5vh">
+            <div style="margin-bottom: 3vh">
                 <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
-            <div class="nicknames" style="margin-bottom: 5vh">
+            <div class="nicknames" style="margin-bottom: 3vh">
                 <p id = "infoText"> Ruumi kood: <br></p>
-                <p id = "bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
+                <p id = "bigInfoText" style="margin-bottom: 3vh"><strong> {{this.$route.params.id}} </strong></p>
                 <p id = "infoText"> Rahvas ruumis: </p>
                 <p id = "bigInfoText" v-for="user in users" :key="user"> <strong> {{ user }} </strong> </p>
             </div>
 
             <div class="startGame">
-                <button class="brk-btn" v-on:click="runGame()">Start game</button>
+                <button class="brk-btn" id="brk-btn-bigger" v-on:click="runGame()">Alusta</button>
+                <button class="brk-btn" id="brk-btn-bigger" v-on:click="showInstructions()">Juhised</button>
             </div>
         </div>
 
@@ -174,6 +178,29 @@
             this.updateBoard();
         },
         methods: {
+            showInstructions () {
+                var win = window.open("juhised.pdf", "_blank");
+                win.focus();
+            },
+            generateNewQ () {
+                let vm = this;
+                const question = document.getElementById("question");
+
+                let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
+                let questionType = vm.positions[howFarIsCurrentPlayer].type;
+
+                let randomQuestion = "do you like to cook a food?"
+
+                for (let i = 0; i < vm.categories.length; i++) {
+                    if (vm.categories[i].type === questionType) {
+
+                        let random = vm.randomNumber(vm.categories[i].questions.length);
+                        randomQuestion = vm.categories[i].questions[random];
+                    }
+                }
+
+                question.innerHTML = randomQuestion;
+            },
             expireCountdown () {
                 let vm = this;
 
@@ -343,7 +370,7 @@
     }
 
     #card > * {
-        margin: 3% 0 3%;
+        margin: 1% 0 1%;
     }
 
     #rate > button {
@@ -416,7 +443,7 @@
 
         align-items: center;
         justify-content: center;
-        justify-content: space-around;
+        justify-content: space-evenly;
 
         position: relative;
         text-align: center;
@@ -453,11 +480,10 @@
         position: relative;
         background: none;
         color: black;
-        font-size: 2vh;
         text-decoration: none;
         border: 0.2em solid #ec9821;
         padding: 0.5em 1em;
-        height: 50%;
+        height: 100%;
     }
 
     .brk-btn::before {
@@ -498,6 +524,14 @@
 
     .brk-btn:focus {
     outline: none;
+    }
+
+    #brk-btn-smaller {
+        font-size: 1vh;
+    }
+
+    #brk-btn-bigger {
+        font-size: 2vh;
     }
 
 </style>
