@@ -21,11 +21,11 @@ server.put("/lobby", (req, res) => {
     let lobby = createLobby();
     lobbies[lobby.id] = lobby;
 
-
-    joinLobby(lobby.id, req.body);
+    const currentUser = joinLobby(lobby.id, req.body);
 
     console.log(`Created lobby ${JSON.stringify(lobby)}`);
 
+    lobby.user = currentUser;
     res.send(lobby);
 });
 
@@ -33,10 +33,10 @@ server.put("/lobby", (req, res) => {
 server.post("/lobby", (req, res) => {
     try {
         let lobby = getLobby(req.body.id, res);
-        console.log(lobbies[lobby.id].users.length);
         if (lobbies[lobby.id].users.length < 6){
-            joinLobby(req.body.id, req.body.user);
+            const currentUser = joinLobby(req.body.id, req.body.user);
             console.log(`${JSON.stringify(lobby)} Created lobby ${JSON.stringify(lobby)}`);
+            lobby.user = currentUser;
             res.send(lobby);
         }
         else {
@@ -80,8 +80,9 @@ function createLobby() {
 }
 
 function joinLobby(lobbyId, user) {
-    lobbies[lobbyId].users.push(user);
-
+    let userdata = {name: user.name, userid: makeid(4)};
+    lobbies[lobbyId].users.push(userdata);
+    return userdata;
 }
 
 function makeid(length) {

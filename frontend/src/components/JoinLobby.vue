@@ -30,6 +30,10 @@
                 axios.post("/lobby", {id: this.codeInput, user: {name: this.nameInput}})
                     .then(res => {
                         this.$router.push("/game/" + res.data.id);
+
+                        let userid = res.data.user.userid;
+                        localStorage.setItem("userid", userid);
+
                     }).catch(e => {
                     alert(e.response.data.error)
                 });

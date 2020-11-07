@@ -36,9 +36,7 @@
                 <button class="brk-btn" id="brk-btn-bigger" v-on:click="showInstructions()">Juhised</button>
             </div>
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -88,76 +86,6 @@
                     {id: 33, offsetLeft: 65.5,  offsetTop: 28.6,    type: "Võistlus"},
                     {id: 34, offsetLeft: 69.7,  offsetTop: 23.6,    type: "Pilt"}
                 ],
-                categories: [
-                    {type: "Algus",
-                    questions: [
-                        "Mis on sinu kõige varasem mälestus?",
-                    ]},
-                    {type: "Jutustamine",
-                    questions: [
-                        "Mis on sinu suurim eesmärk, mille oled täitnud?",
-                        "Mis on sinu suurim eesmärk, mida tahad saavutada?",
-                        "Mis on suurim eesmärk, mis sinu sõber/tuttav on saavutanud?",
-                        "Milline inimene on ideaalne sina?",
-                        "Kui sa saaksid viibutada võlukeppi ja muuta oma elus ühte asja, siis mis see oleks?",
-                        "Milline on sinu ideaalne kaaslane?",
-                        "Kirjelda enda unistuste päeva.",
-                        "Mida kirjutaksid enda hauakivile?",
-                        "Kirjelda, kuidas sooviksid surra.",
-                        "Millist elu sooviksid elada?",
-                        "Milline näeb välja sinu ideaalne elukoht?",
-                    ]},
-                    {type: "Tegevus",
-                    questions: [
-                        "Joonista kolm asja, mille eest oled tänulik.",
-                        "Joonista kaks asja, mis sulle ei meeldi.",
-                        "Joonista enda ägedaim pereliige.",
-                        "Joonista enda unistuste kodu.",
-                        "Kustuta oma postkastist viis ebaolulist meili.",
-                        "Lülita enda telefon mängu ajaks välja.",
-                        "Kustuta enda telefonist üks üleliigne telefoninumber.",
-                        "Kustuta enda telefonist või arvutist kaks kasutut märget.",
-                        "Eemalda enda kalendrist üks ebaoluline tegevus.",
-                        "Kustuta enda telefonist üks rakendus.",
-                        "Tantsi üksi või paarilisega.",
-                        "Hoia ühe minuti vältel planku.",
-                        "Tee enda parim kükk.",
-                        "Tee 10 kätekõverdust."
-                    ]},
-                    {type: "Võistlus",
-                    questions: [
-                        "Kumb suudab 30 sekundi jooksul nimetada rohkem enesearengu raamatuid?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada häid podcaste?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada blogisid, mida lugeda?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada häid harjumusi, mida on hea teha, et ennast arendada?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada heategijaid?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada heategusi, mida teha?",
-                        "Kumb suudab 30 sekundi jooksul rohkem nimetada viise enda ökoloogilise jalajälje vähendamiseks?"
-                    ]},
-                    {type: "Lubadus",
-                    questions: [
-                        "Finants (nt. Loen..., Investeerin..., Ostan..., Koostan eelarve...",
-                        "Tervis (nt. Teen..., Söön..., Magan..., Väldin...)",
-                        "Füüsiline heaolu (nt. Teen..., Väldin..., Trenn..., Toitumine...)",
-                        "Vaimne heaolu (nt. Loen..., Harin..., Puhkan..., Arendan...)",
-                    ]},
-                    {type: "Pakkumine",
-                    questions: [
-                        "Mis isiksusetüüpi teised pigem on - ekstravert-introvert?",
-                        "Mis isiksusetüüpi teised pigem on - spontaanne-planeerija?",
-                        "Mis isiksusetüüpi teised pigem on - detailne-ideederohke?",
-                        "Mis isiksusetüüpi teised pigem on - ideede genereerija-elluviija?",
-                        "Kuidas teised stressi olukorras käituvad- vajab aega üksi, lõbutseb teistega koos?",
-                        "Mida teised eelistavad - raamat, audioraamat, podcast, blogi?",
-                        "Millised teised pigem on - õhtu- või hommikuinimesed?",
-                        "Mida teised pigem õpiksid - reaalained, humanitaarained, loovained?"
-                    ]}
-                    ,
-                    {type: "Tühi",
-                    questions: [
-                        "Antud hetkel vajuta lihtsalt \"1\" :)"
-                    ]}
-                ],
                 pieces: [
                     {id: 0, howFar: 0},
                     {id: 1, howFar: 0},
@@ -176,6 +104,7 @@
         },
         mounted: function () {
             this.updateBoard();
+            this.getuserid();
         },
         methods: {
             showInstructions () {
@@ -338,9 +267,15 @@
                         this.users = res.data.users.map(user => user.name);
                         setTimeout(() => this.updateBoard(), 2000)
                     });
+            },
+            getuserid: function(){
+                if(localStorage.getItem("userid") != null)
+                {
+                    this.currentuserid = localStorage.getItem("userid");
+                    console.log(this.currentuserid)
+                }
             }
         }
-
     }
 </script>
 
