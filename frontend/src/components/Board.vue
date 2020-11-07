@@ -99,34 +99,34 @@
         },
         methods: {
             movePiece: function (whichPiece, nrOfSteps) {
-                var vm = this;
+                let vm = this;
                 const elements = document.getElementsByClassName("piece");
 
-                var step = (2 * Math.PI) / elements.length;
-                var angle = 0;
+                let  step = (2 * Math.PI) / elements.length;
+                let angle = 0;
 
-                var i;
+                let i;
                 for (i = 0; i < elements.length; i++) {
-                    if (whichPiece == i) {
+                    if (whichPiece === i) {
 
                         vm.pieces[whichPiece].howFar += nrOfSteps; // Piece is about to move, add nr of steps
                         const style = getComputedStyle(elements[i]);
 
-                        var leftStyle = style.left.substring(0, style.left.length - 2);
-                        var topStyle = style.top.substring(0, style.top.length - 2);
+                        let  leftStyle = style.left.substring(0, style.left.length - 2);
+                        let  topStyle = style.top.substring(0, style.top.length - 2);
                         leftStyle = parseFloat(leftStyle);
                         topStyle = parseFloat(topStyle);
 
-                        var getTile = vm.pieces[whichPiece].howFar;
-                        var getOffsetLeft = vm.positions[getTile].offsetLeft;
-                        var getOffsetTop = vm.positions[getTile].offsetTop;
+                        let  getTile = vm.pieces[whichPiece].howFar;
+                        let  getOffsetLeft = vm.positions[getTile].offsetLeft;
+                        let  getOffsetTop = vm.positions[getTile].offsetTop;
 
-                        var x = -2 * Math.cos(angle);
-                        var y = -2 * 1.5 * Math.sin(angle);
+                        let  x = -2 * Math.cos(angle);
+                        let  y = -2 * 1.5 * Math.sin(angle);
 
 
-                        elements[i].style.left = parseFloat(getOffsetLeft + x) + "%";
-                        elements[i].style.top = parseFloat(getOffsetTop + y) + "%";
+                        elements[i].style.left = (parseFloat(getOffsetLeft) + x) + "%";
+                        elements[i].style.top = (parseFloat(getOffsetTop) + y) + "%";
 
                         vm.currentPlayer++;
 
@@ -140,24 +140,24 @@
                 console.log(vm.currentPlayer);
             },
             runGame: function () {
-                var vm = this;
+                let vm = this;
                 vm.gameStarted = true;
 
                 setTimeout(function (){
 
                     const title = document.getElementById("title");
-                    var howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
+                    let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
 
                     title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " " + vm.users[vm.currentPlayer];
 
                 }, 100);
             },
             updateCardData: function () {
-                var vm = this;
+                let vm = this;
                 setTimeout(function (){
 
                     const title = document.getElementById("title");
-                    var howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
+                    let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
 
                     title.innerHTML = vm.positions[howFarIsCurrentPlayer].type + " " + vm.users[vm.currentPlayer];
 
