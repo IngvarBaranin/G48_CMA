@@ -1,5 +1,6 @@
 <template>
     <div class="game">
+
         <div class="gamecontainer">
             <img class="board" src="../assets/Gameboard.png">
             <img class = "piece" id="piece1" src="../assets/piece1.png">

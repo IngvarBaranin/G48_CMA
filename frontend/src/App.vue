@@ -1,44 +1,41 @@
 <template>
-  <div class="app">
-    <div class="game">
-      <Board />
+    <div class="app">
+        <div class="lobby">
+            <component :is="currentComponent"></component>
+        </div>
     </div>
-    <div class="test">
-      <div>
-        <Chat />
-      </div>
-      <div>
-
-      </div>
-
-    </div>
-
-  </div>
 </template>
 
 <script>
-import Board from './components/Board.vue'
-import Chat from './components/Chat.vue';
+    import Board from './components/Board.vue'
+    import ChooseLobby from "./components/ChooseLobby";
+    import {EventBus} from './main.js';
 
-export default {
-  name: 'App',
-  components: {
-    Board,
-    Chat
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            ChooseLobby
+        },
+        data: function () {
+            return {
+                currentComponent: ChooseLobby
+            }
+        },
+        mounted() {
+            EventBus.$on('i-got-clicked', () => {
+                this.currentComponent = Board;
+            })
+        }
+
+    };
+
 </script>
 
+
 <style>
-.app {
-}
 
-.test {
-  display: flex;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
 </style>
