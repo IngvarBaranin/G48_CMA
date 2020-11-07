@@ -75,15 +75,12 @@
                 { id: 4, howFar: 1 },
                 { id: 5, howFar: 1 }
             ],
-            users:["bob", "dod"]
+            users: []
         }
 
     },
     mounted: function () {
-        axios.get("/lobby/" + this.$route.params.id)
-            .then(res => {
-                this.users = res.data.users.map(user => user.name);
-            });
+        this.updateBoard();
     },
     methods: {
         movePiece: function (whichPiece) {
@@ -129,6 +126,13 @@
                 // When individually implemented
             }
         },
+        updateBoard: function() {
+            axios.get("/lobby/" + this.$route.params.id)
+                .then(res => {
+                    this.users = res.data.users.map(user => user.name);
+                    setTimeout(() => this.updateBoard(), 2000)
+                });
+        }
   }
 
 }
