@@ -119,23 +119,13 @@
                 win.focus();
             },
             generateNewQ () {
-                let vm = this;
-                const question = document.getElementById("question");
-
-                let howFarIsCurrentPlayer = vm.pieces[vm.currentPlayer].howFar;
-                let questionType = vm.positions[howFarIsCurrentPlayer].type;
-
-                let randomQuestion = "do you like to cook a food?"
-
-                for (let i = 0; i < vm.categories.length; i++) {
-                    if (vm.categories[i].type === questionType) {
-
-                        let random = vm.randomNumber(vm.categories[i].questions.length);
-                        randomQuestion = vm.categories[i].questions[random];
-                    }
-                }
-
-                question.innerHTML = randomQuestion;
+                axios.post("/game/" + this.$route.params.id, {
+                    event: "getNewQuestion"})
+                    .then((res) => {
+                        this.currentQuestionType =
+                            res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
+                        this.currentQuestion = res.data.currentQuestion;
+                    });
             },
             expireCountdown () {
                 let vm = this;

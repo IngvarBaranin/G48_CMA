@@ -71,9 +71,10 @@ server.post("/game/:id", (req, res) =>{
                 break;
             case "positionUpdate":
                 setMove(lobby, req.body.userId, req.body.position);
-                // TODO: Update answering user and or question to be answered
                 switchPlayerAndGenerateNextQuestion(lobby);
-
+                break;
+            case "getNewQuestion":
+                getQuestion(lobby);
                 break;
             default:
                 return res.status(422).send({error: "Unknown event " + req.body.event});
@@ -112,17 +113,15 @@ function switchPlayerAndGenerateNextQuestion(lobby){
         lobby.currentQuestion = questions["Algus"][0];
     } else{
         //Where is the user and what is the topic
-        let topic = getTopic(lobby);
-        console.log("teema", topic);
-        lobby.currentQuestionType = topic;
-        let questionPool = questions[topic].length - 1;
-        lobby.currentQuestion = questions[topic][randomNumber(questionPool)];
+        getQuestion(lobby);
     }
 }
 
-function getTopic(lobby){
-    console.log(lobby.users[lobby.currentAnswerer].position);
-    return positions.Positions[lobby.users[lobby.currentAnswerer].position].type
+function getQuestion(lobby){
+    let topic = positions.Positions[lobby.users[lobby.currentAnswerer].position].type;
+    lobby.currentQuestionType = topic;
+    let questionPool = questions[topic].length - 1;
+    lobby.currentQuestion = questions[topic][randomNumber(questionPool)];
 }
 
 function startGame(lobby) {
