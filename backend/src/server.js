@@ -39,8 +39,9 @@ server.post("/lobby", (req, res) => {
 });
 
 // Return lobby info
-server.get("/lobby", (req, res) => {
-    res.send(lobbies[req.body.id]);
+server.get("/lobby/:id", (req, res) => {
+    console.log(`Get lobby ${req.params.id} info`);
+    res.send(lobbies[req.params.id]);
 });
 
 function createLobby() {

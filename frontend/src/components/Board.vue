@@ -8,6 +8,7 @@
             <button v-on:click="movePiece(3)">Move 4</button>
             <button v-on:click="movePiece(4)">Move 5</button>
             <button v-on:click="movePiece(5)">Move 6</button>
+            <p>{{this.$route.params.id}}</p>
             <p v-for="user in users" :key="user">{{user}}</p>
         </div>
 
@@ -24,7 +25,9 @@
 </template>
 
 <script>
-export default {
+    import axios from "axios";
+
+    export default {
     data: function() {
         return {
             posts: [
@@ -72,9 +75,15 @@ export default {
                 { id: 4, howFar: 1 },
                 { id: 5, howFar: 1 }
             ],
-            users:[]
+            users:["bob", "dod"]
         }
 
+    },
+    mounted: function () {
+        axios.get("/lobby/" + this.$route.params.id)
+            .then(res => {
+                this.users = res.data.users.map(user => user.name);
+            });
     },
     methods: {
         movePiece: function (whichPiece) {
