@@ -212,8 +212,8 @@
                 if (position >= 34) {
                     document.getElementById("rate").style.display = "none";
                     document.getElementById("brk-btn-smaller").style.display = "none";
-                    this.currentQuestionType = "Aitäh, et mängisite!";
-                    this.currentQuestion = this.users[this.currentPlayerIndex].name + " võitis!";
+                    this.currentQuestionType = "Võitis " + this.users[this.currentPlayerIndex].name + "!";
+                    this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
                     return true;
                 }
                 return false;
