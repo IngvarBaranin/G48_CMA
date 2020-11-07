@@ -496,4 +496,8 @@
         left: 80%;
     }
 
+    .brk-btn:focus {
+    outline: none;
+    }
+
 </style>
