@@ -30,7 +30,7 @@
             submitText: function (event) {
                 event.preventDefault();
 
-                axios.post("/lobby", {id: this.codeInput, user: this.nameInput})
+                axios.post("/lobby", {id: this.codeInput, user: {name: this.nameInput}})
                     .then(res => {
                         this.$router.push("/game/"+res.data.id);
                     });
