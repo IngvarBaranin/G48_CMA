@@ -208,16 +208,12 @@
                 pieceElement.style.top = (parseFloat(getOffsetTop) + y) + "%";
             },
             checkForWinner: function () {
-                let vm = this;
-                if (vm.pieces[vm.currentPlayer].howFar >= 34) {
-                    const title = document.getElementById("title");
-                    const question = document.getElementById("question");
-
+                let position = this.users[this.currentPlayerIndex].position;
+                if (position >= 34) {
                     document.getElementById("rate").style.display = "none";
-
-                    question.innerHTML = "Aitäh, et mängisite!";
-                    title.innerHTML = vm.users[vm.currentPlayer] + " võitis!";
-
+                    document.getElementById("brk-btn-smaller").style.display = "none";
+                    this.currentQuestionType = "Aitäh, et mängisite!";
+                    this.currentQuestion = this.users[this.currentPlayerIndex].name + " võitis!";
                     return true;
                 }
                 return false;
@@ -249,6 +245,10 @@
                             this.currentQuestion = res.data.currentQuestion;
                             this.gameStarted = true;
                             this.rerenderBoard();
+                        }
+
+                        if(this.checkForWinner()){
+                            loop = false
                         }
 
                         if (loop) {
