@@ -28,14 +28,14 @@
 
         <div id="info">
             <div style="margin-bottom: 3vh">
-                <Counter v-if="gameStarted" :minutes="0" :seconds="30" v-on:countdownExpiration="expireCountdown"/>
+                <Counter v-if="gameStarted" :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
                 <p class="infoText"> Ruumi kood: <br></p>
                 <p class="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
                 <p class="infoText"> Rahvas ruumis: </p>
-                <p class="bigInfoText" v-for="user in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
+                <p class="bigInfoText" :class="{ 'highlightPlayer': currentPlayerIndex == index }" v-for="(user, index) in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
             </div>
 
             <div class="startGame">
@@ -291,6 +291,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .highlightPlayer {
+        color: #ec9821;
+    }
 
     .startGame {
 
