@@ -28,7 +28,6 @@
 
         <div id="info">
             <div style="margin-bottom: 3vh">
-                <p>{{this.timerTime}}</p>
                 <Counter v-if="timerStatus && gameStarted" :minutes=this.timerTime :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
@@ -36,7 +35,7 @@
                 <p class="infoText"> Ruumi kood: <br></p>
                 <p class="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
                 <p class="infoText"> Rahvas ruumis: </p>
-                <p class="bigInfoText" :class="{ 'highlightPlayer': currentPlayerIndex == index }" v-for="(user, index) in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
+                <p class="bigInfoText" :class="{ 'highlightPlayer': currentPlayerIndex === index }" v-for="(user, index) in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
             </div>
 
             <div class="startGame">
@@ -248,7 +247,6 @@
                         this.currentQuestion = res.data.currentQuestion;
                         this.timerStatus = res.data.timerStatus;
                         this.timerTime = res.data.timerTime;
-                        console.log(this.timerTime);
                         this.gameStarted = true;
                     });
             },
@@ -266,6 +264,7 @@
                                 res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                             this.currentQuestion = res.data.currentQuestion;
                             this.gameStarted = true;
+                            console.log(res.data);
                             this.rerenderBoard();
                         }
 

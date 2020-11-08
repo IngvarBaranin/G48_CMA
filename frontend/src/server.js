@@ -29,15 +29,13 @@ let lobbies = {};
 // Creating a lobby
 server.put("/lobby", (req, res) => {
     let lobby = createLobby();
-    lobby.timerStatus = req.body.timerStatus;
-    lobby.timerTime = req.body.timerTime;
-
     lobbies[lobby.id] = lobby;
-    console.log(req.body);
 
-    const currentUser = joinLobby(lobby.id, req.body.name);
+    const currentUser = joinLobby(lobby.id, req.body);
     lobby.user = currentUser;
     lobby.host = currentUser.userId;
+    lobby.timerStatus = req.body.timerStatus;
+    lobby.timerTime = req.body.timerTime;
 
     console.log(`Created lobby ${JSON.stringify(lobby)}`);
     res.send(lobby);
