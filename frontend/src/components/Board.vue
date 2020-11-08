@@ -22,6 +22,7 @@
                         küsimus
                     </button>
                 </div>
+                <a v-if="gameOver" href="https://forms.gle/CC2oZqWh7skDJnJi6">Anna meile tagasisidet!</a>
             </div>
         </div>
 
@@ -35,7 +36,7 @@
                 <p class="infoText"> Ruumi kood: <br></p>
                 <p class="bigInfoText" style="margin-bottom: 5vh"><strong> {{this.$route.params.id}} </strong></p>
                 <p class="infoText"> Rahvas ruumis: </p>
-                <p class="bigInfoText" v-for="user in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
+                <p class="bigInfoText" :class="{ 'highlightPlayer': currentPlayerIndex == index }" v-for="(user, index) in users" :key="user.userId"><strong> {{ user.name }} </strong></p>
             </div>
 
             <div class="startGame">
@@ -154,7 +155,6 @@
                     }
 
                     document.getElementById("rate").style.display = "none";
-                    document.getElementById("brk-btn-smaller").style.display = "none";
 
 
                     if (winners.length > 1) {
@@ -223,17 +223,19 @@
                 pieceElement.style.top = (parseFloat(getOffsetTop) + y) + "%";
             },
             checkForWinner: function () {
-                let position = this.users[this.currentPlayerIndex].position;
-                if (position >= 34) {
-                    this.expireCountdown();
-                    this.gameOver = true;
-                    document.getElementById("rate").style.display = "none";
-                    document.getElementById("brk-btn-smaller").style.display = "none";
-                    this.currentQuestionType = "Võitis " + this.users[this.currentPlayerIndex].name + "!";
-                    this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
-                    return true;
+                for (let i = 0; i < this.users.length; i++) {
+                    let position = this.users[i].position;
+                    if (position >= 34) {
+                        this.expireCountdown();
+                        this.gameOver = true;
+                        document.getElementById("rate").style.display = "none";
+                        document.getElementById("brk-btn-smaller").style.display = "none";
+                        this.currentQuestionType = "Võitis " + this.users[i].name + "!";
+                        this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
+                    }
                 }
-                return false;
+
+
             },
             runGame: function () {
                 axios.post("/game/" + this.$route.params.id, {
@@ -267,16 +269,13 @@
                             this.rerenderBoard();
                         }
 
-                        if (this.checkForWinner()) {
-                            loop = false
-                        }
+                        this.checkForWinner();
                         if (this.countdownExpired) {
                             this.expireCountdown();
-                            loop = false
                         }
 
                         if (loop) {
-                            setTimeout(() => this.updateBoard(loop), 2000)
+                            setTimeout(() => this.updateBoard(loop), 200)
                         }
                     });
             },
@@ -297,6 +296,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .highlightPlayer {
+        color: #ec9821;
+    }
 
     .startGame {
 
