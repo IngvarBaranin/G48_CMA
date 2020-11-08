@@ -264,7 +264,8 @@
                                 res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                             this.currentQuestion = res.data.currentQuestion;
                             this.gameStarted = true;
-                            console.log(res.data);
+                            this.timerTime = res.data.timerTime;
+                            this.timerStatus = res.data.timerStatus;
                             this.rerenderBoard();
                         }
 
