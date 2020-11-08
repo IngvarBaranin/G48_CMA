@@ -18,14 +18,16 @@
                     <button v-if="host" v-on:click="movePiece(4)">4</button>
                 </div>
                 <div>
-                    <button v-if="host" v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda küsimus</button>
+                    <button v-if="host" v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda
+                        küsimus
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div id ="info">
+        <div id="info">
             <div style="margin-bottom: 3vh">
-                <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
+                <Counter v-if="gameStarted" :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
@@ -36,7 +38,8 @@
             </div>
 
             <div class="startGame">
-                <button v-if="host && !gameStarted" class="brk-btn" id="brk-btn-bigger" v-on:click="runGame()">Alusta</button>
+                <button v-if="host && !gameStarted" class="brk-btn" id="brk-btn-bigger" v-on:click="runGame()">Alusta
+                </button>
                 <button class="brk-btn" id="brk-btn-bigger" v-on:click="showInstructions()">Juhised</button>
             </div>
         </div>
@@ -115,20 +118,21 @@
             this.updateBoard(true);
         },
         methods: {
-            showInstructions () {
+            showInstructions() {
                 var win = window.open("juhised.pdf", "_blank");
                 win.focus();
             },
-            generateNewQ () {
+            generateNewQ() {
                 axios.post("/game/" + this.$route.params.id, {
-                    event: "getNewQuestion"})
+                    event: "getNewQuestion"
+                })
                     .then((res) => {
                         this.currentQuestionType =
                             res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                         this.currentQuestion = res.data.currentQuestion;
                     });
             },
-            expireCountdown () {
+            expireCountdown() {
                 let vm = this;
 
                 if (!vm.gameOver) {
@@ -150,10 +154,20 @@
                     document.getElementById("rate").style.display = "none";
                     document.getElementById("brk-btn-smaller").style.display = "none";
 
-                    console.log(winners);
+
                     if (winners.length > 1) {
-                        this.currentQuestionType = "Võitis " + winners[0].name.join(" ja ") + "!";
-                    }else{
+                        let text = "Võitis ";
+                        for (let i = 0; i < winners.length; i++) {
+                            if (i < winners.length - 1) {
+                                text += winners[i].name + " ja ";
+                            } else {
+                                text += winners[i].name
+                            }
+                        }
+                        text += " !";
+                        this.currentQuestionType = text;
+
+                    } else {
                         this.currentQuestionType = "Võitis " + winners[0].name + "!";
                     }
 
@@ -162,16 +176,15 @@
 
                 this.countdownExpired = true;
             },
-            randomNumber: function (max) {
-                return Math.floor(Math.random() * Math.floor(max));
-            },
+
             movePiece: function (nrOfSteps) {
                 const nextPosition = this.users[this.currentPlayerIndex].position + nrOfSteps;
 
                 axios.post("/game/" + this.$route.params.id, {
                     event: "positionUpdate",
                     userId: this.users[this.currentPlayerIndex].userId,
-                    position: nextPosition})
+                    position: nextPosition
+                })
                     .then((res) => {
                         this.currentPlayerIndex = res.data.currentAnswerer;
                         this.currentQuestionType =
@@ -249,10 +262,10 @@
                             this.rerenderBoard();
                         }
 
-                        if(this.checkForWinner()){
+                        if (this.checkForWinner()) {
                             loop = false
                         }
-                        if(this.countdownExpired){
+                        if (this.countdownExpired) {
                             this.expireCountdown();
                             loop = false
                         }
@@ -456,7 +469,7 @@
     }
 
     .brk-btn:focus {
-    outline: none;
+        outline: none;
     }
 
     #brk-btn-smaller {

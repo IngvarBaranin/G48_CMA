@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div v-if="loaded">
+        <div>
             <h1>Aeg</h1>
             <h2 v-if="!expired">{{displayMinutes}}:{{displaySeconds}}</h2>
             <h2 v-if="expired">Aeg läbi!</h2>
