@@ -25,7 +25,7 @@
 
         <div id ="info">
             <div style="margin-bottom: 3vh">
-                <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
+                <Counter :minutes="0" :seconds="30" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
@@ -105,7 +105,8 @@
                 countdownExpired: false,
                 currentQuestionType: "",
                 currentQuestion: "",
-                host: false
+                host: false,
+                gameOver: false
             }
 
         },
@@ -134,31 +135,30 @@
                     let farthestDistance = 0;
                     let winners = [];
 
-                    for (let i = 0; i < vm.pieces.length; i++) {
-                        if (vm.pieces[i].howFar > farthestDistance) {
-                            farthestDistance = vm.pieces[i].howFar;
+                    for (let i = 0; i < this.users.length; i++) {
+                        if (this.users[i].position > farthestDistance) {
+                            farthestDistance = this.users[i].position;
                         }
                     }
 
-                    for (let i = 0; i < vm.pieces.length; i++) {
-                        if (vm.pieces[i].howFar == farthestDistance) {
-                            winners.push(vm.users[i])
+                    for (let i = 0; i < this.users.length; i++) {
+                        if (this.users[i].position === farthestDistance) {
+                            winners.push(this.users[i])
                         }
                     }
-
-                    const title = document.getElementById("title");
-                    const question = document.getElementById("question");
 
                     document.getElementById("rate").style.display = "none";
+                    document.getElementById("brk-btn-smaller").style.display = "none";
 
+                    console.log(winners);
                     if (winners.length > 1) {
-                        let winnerStr = winners.join(" ja ");
-                        title.innerHTML = "Võitis " + winnerStr;
+                        this.currentQuestionType = "Võitis " + winners[0].name.join(" ja ") + "!";
+                    }else{
+                        this.currentQuestionType = "Võitis " + winners[0].name + "!";
                     }
 
-                    question.innerHTML = "Aitäh, et mängisite!";
+                    this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
                 }
-
 
                 this.countdownExpired = true;
             },
@@ -210,6 +210,8 @@
             checkForWinner: function () {
                 let position = this.users[this.currentPlayerIndex].position;
                 if (position >= 34) {
+                    this.expireCountdown();
+                    this.gameOver = true;
                     document.getElementById("rate").style.display = "none";
                     document.getElementById("brk-btn-smaller").style.display = "none";
                     this.currentQuestionType = "Võitis " + this.users[this.currentPlayerIndex].name + "!";
@@ -248,6 +250,10 @@
                         }
 
                         if(this.checkForWinner()){
+                            loop = false
+                        }
+                        if(this.countdownExpired){
+                            this.expireCountdown();
                             loop = false
                         }
 
