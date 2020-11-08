@@ -22,12 +22,13 @@
                         küsimus
                     </button>
                 </div>
+                <a v-if="gameOver" href="https://forms.gle/CC2oZqWh7skDJnJi6">Anna meile tagasisidet!</a>
             </div>
         </div>
 
         <div id="info">
             <div style="margin-bottom: 3vh">
-                <Counter v-if="gameStarted" :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
+                <Counter v-if="gameStarted" :minutes="0" :seconds="30" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
@@ -152,7 +153,6 @@
                     }
 
                     document.getElementById("rate").style.display = "none";
-                    document.getElementById("brk-btn-smaller").style.display = "none";
 
 
                     if (winners.length > 1) {
@@ -221,17 +221,19 @@
                 pieceElement.style.top = (parseFloat(getOffsetTop) + y) + "%";
             },
             checkForWinner: function () {
-                let position = this.users[this.currentPlayerIndex].position;
-                if (position >= 34) {
-                    this.expireCountdown();
-                    this.gameOver = true;
-                    document.getElementById("rate").style.display = "none";
-                    document.getElementById("brk-btn-smaller").style.display = "none";
-                    this.currentQuestionType = "Võitis " + this.users[this.currentPlayerIndex].name + "!";
-                    this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
-                    return true;
+                for (let i = 0; i < this.users.length; i++) {
+                    let position = this.users[i].position;
+                    if (position >= 34) {
+                        this.expireCountdown();
+                        this.gameOver = true;
+                        document.getElementById("rate").style.display = "none";
+                        document.getElementById("brk-btn-smaller").style.display = "none";
+                        this.currentQuestionType = "Võitis " + this.users[i].name + "!";
+                        this.currentQuestion = "Võitja viimaseks ülesandeks on jäädvustada teie maailmamuutev seltskond. Aitäh, et mängisite!";
+                    }
                 }
-                return false;
+
+
             },
             runGame: function () {
                 axios.post("/game/" + this.$route.params.id, {
@@ -262,16 +264,13 @@
                             this.rerenderBoard();
                         }
 
-                        if (this.checkForWinner()) {
-                            loop = false
-                        }
+                        this.checkForWinner();
                         if (this.countdownExpired) {
                             this.expireCountdown();
-                            loop = false
                         }
 
                         if (loop) {
-                            setTimeout(() => this.updateBoard(loop), 2000)
+                            setTimeout(() => this.updateBoard(loop), 200)
                         }
                     });
             },
