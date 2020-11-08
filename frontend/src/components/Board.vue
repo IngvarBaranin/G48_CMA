@@ -12,20 +12,20 @@
                 <h1>{{currentQuestionType}}</h1>
                 <h2>{{currentQuestion}}</h2>
                 <div id="rate">
-                    <button v-on:click="movePiece(1)">1</button>
-                    <button v-on:click="movePiece(2)">2</button>
-                    <button v-on:click="movePiece(3)">3</button>
-                    <button v-on:click="movePiece(4)">4</button>
+                    <button v-if="host" v-on:click="movePiece(1)">1</button>
+                    <button v-if="host" v-on:click="movePiece(2)">2</button>
+                    <button v-if="host" v-on:click="movePiece(3)">3</button>
+                    <button v-if="host" v-on:click="movePiece(4)">4</button>
                 </div>
                 <div>
-                    <button v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda küsimus</button>
+                    <button v-if="host" v-on:click="generateNewQ()" class="brk-btn" id="brk-btn-smaller">Asenda küsimus</button>
                 </div>
             </div>
         </div>
 
         <div id ="info">
             <div style="margin-bottom: 3vh">
-                <Counter :minutes="0" :seconds="30" v-on:countdownExpiration="expireCountdown"/>
+                <Counter :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
