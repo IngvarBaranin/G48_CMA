@@ -41,7 +41,7 @@
         methods: {
             submitText: function (event) {
                 event.preventDefault();
-                axios.put("/lobby", {name: this.nameInput, timerStatus: this.showTime, timerTime: this.timeInput})
+                axios.put("/lobby", {name: this.nameInput, timerStatus: this.showTime, timerTime: parseInt(this.timeInput)})
                     .then(res => {
                         storage.userId = res.data.user.userId;
                         console.log("Set storage to " + storage);

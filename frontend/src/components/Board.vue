@@ -28,7 +28,7 @@
 
         <div id="info">
             <div style="margin-bottom: 3vh">
-                <Counter v-if="timerStatus && gameStarted" :minutes=this.timerTime :seconds="0" v-on:countdownExpiration="expireCountdown"/>
+                <Counter v-if="timerStatus && gameStarted" :minutes=timerTime :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
