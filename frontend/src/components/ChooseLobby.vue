@@ -5,9 +5,9 @@
                 <router-view></router-view>
             </div>
             <hr>
-            <div class="container">
-                <button class="brk-btn" @click="$router.push('/')"> Join Lobby</button>
-                <button class="brk-btn" @click="$router.push('/create')"> Create Lobby</button>
+            <div class="buttons">
+                <button class="brk-btn" @click="$router.push('/')"> Ühine ruumiga</button>
+                <button class="brk-btn" @click="$router.push('/create')"> Loo ruum</button>
             </div>
         </div>
     </div>
@@ -25,31 +25,31 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
-        height: 100%;
         margin-top: 20vh;
     }
 
     .card {
-        /* Add shadows to create the "card" effect */
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         transition: 0.3s;
         border-radius: 5px;
-        height: 50vh;
-        width: 40vh;
+        height: 60vh;
+        width: 45vh;
     }
 
-    /* On mouse-over, add a deeper shadow */
     .card:hover {
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
 
     .main {
         height: 80%;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
     }
 
-    /* Add some padding inside the card container */
-    .container {
+    .buttons {
         display: flex;
         justify-content: space-between;
         padding: 2px 16px;

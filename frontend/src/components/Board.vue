@@ -47,8 +47,7 @@
 </template>
 
 <script>
-    import axios from "axios";
-    import Counter from "./Counter.vue"
+    import axios from "axios";import Counter from "./Counter.vue"
     import storage from "../storage"
 
     export default {

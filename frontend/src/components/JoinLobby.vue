@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <div class="content">
-            <h1>Join Lobby</h1>
-            <form>
-                <input class="namebox" type="text" v-model="nameInput" placeholder="Username"/>
-                <input class="namebox" type="text" v-model="codeInput" placeholder="Code"/>
-                <input class="brk-btn" type="submit" value="Join" @click.stop.prevent="submitText"/>
-            </form>
+            <h1>Ühine ruumiga</h1>
+            <input class="namebox" type="text" v-model="nameInput" placeholder="Kasutajanimi"/>
+            <input class="namebox" type="text" v-model="codeInput" placeholder="Ruumikood"/>
+            <div>
+                <input class="brk-btn" type="submit" value="Ühine" @click.stop.prevent="submitText"/>
+            </div>
         </div>
     </div>
 </template>
@@ -44,23 +44,14 @@
 
 <style scoped>
 
-    .container {
-        text-align: center;
-        display: flex;
-        align-self: center;
-        justify-content: center;
-    }
 
     .namebox {
         margin-top: 10%;
         padding: 0.5em 1em;
-        height: 50%;
+        height: 60%;
         font-size: 15px;
     }
 
-    .content {
-        margin-top: 10%;
-    }
 
     .brk-btn {
         margin-top: 10%;
