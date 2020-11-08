@@ -7,11 +7,18 @@
 
             <div class="timer">
                 <h3>Taimer?</h3>
-                <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
+                <input id="toggle-on" @click=add() class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
                 <label for="toggle-on" class="btn">Jah</label>
-                <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio">
+                <input id="toggle-off" @click=remove() class="toggle toggle-right" name="toggle" value="true" type="radio">
                 <label for="toggle-off" class="btn">Ei</label>
             </div>
+            <div v-if=showTime class="numberChoice">
+                <h3 for="time">Mitu minutit?</h3>
+
+                <input type="number" v-model="timeInput" id="time" name="time"
+                       min="10" max="100">
+            </div>
+
             <input class="brk-btn" type="submit" value="Loo ruum" @click.stop.prevent="submitText"/>
         </div>
 
@@ -26,19 +33,27 @@
         name: 'CreateLobby',
         data: function () {
             return {
-                nameInput: ""
+                nameInput: "",
+                showTime: true,
+                timeInput: 0
             }
         },
         methods: {
             submitText: function (event) {
                 event.preventDefault();
-                axios.put("/lobby", {name: this.nameInput})
+                axios.put("/lobby", {name: this.nameInput, timerStatus: this.showTime, timerTime: this.timeInput})
                     .then(res => {
                         storage.userId = res.data.user.userId;
                         console.log("Set storage to " + storage);
                         this.$router.push("/game/" + res.data.id);
                     });
 
+            },
+            remove() {
+                this.showTime = false;
+            },
+            add(){
+                this.showTime = true;
             }
         }
     }
@@ -51,6 +66,15 @@
         height: 60%;
         padding: 0.5em 1em;
         font-size: 15px;
+    }
+
+    #time{
+        height: 60%;
+        padding: 0.5em 1em;
+        font-size: 15px;
+    }
+    .numberChoice{
+        margin-top: 10%;
     }
 
     .timer{

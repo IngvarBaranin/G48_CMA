@@ -27,7 +27,8 @@
 
         <div id="info">
             <div style="margin-bottom: 3vh">
-                <Counter v-if="gameStarted" :minutes="60" :seconds="0" v-on:countdownExpiration="expireCountdown"/>
+                <p>{{this.timerTime}}</p>
+                <Counter v-if="timerStatus && gameStarted" :minutes=this.timerTime :seconds="0" v-on:countdownExpiration="expireCountdown"/>
             </div>
 
             <div class="nicknames" style="margin-bottom: 5vh">
@@ -108,7 +109,9 @@
                 currentQuestionType: "",
                 currentQuestion: "",
                 host: false,
-                gameOver: false
+                gameOver: false,
+                timerStatus: false,
+                timerTime: 0
             }
 
         },
@@ -241,6 +244,9 @@
                         this.currentQuestionType =
                             res.data.currentQuestionType + " (" + this.users[this.currentPlayerIndex].name + ")";
                         this.currentQuestion = res.data.currentQuestion;
+                        this.timerStatus = res.data.timerStatus;
+                        this.timerTime = res.data.timerTime;
+                        console.log(this.timerTime);
                         this.gameStarted = true;
                     });
             },

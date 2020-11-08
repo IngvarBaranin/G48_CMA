@@ -1,6 +1,6 @@
 const express = require('express');
-const serveStatic = require('serve-static')
-const path = require('path')
+const serveStatic = require('serve-static');
+const path = require('path');
 const server = express();
 const http = require('http').createServer(server);
 const cors = require('cors');
@@ -8,20 +8,19 @@ const questions = require('./questions.json');
 const positions = require('./positions.json');
 
 server.use(cors());
-server.use('/', serveStatic(path.join(__dirname, '../dist')))
+server.use('/', serveStatic(path.join(__dirname, '../dist')));
 server.use(express.json());
 
-const port = process.env.PORT || 8090
+const port = process.env.PORT || 8090;
 server.listen(port, function () {
     console.log("Server started")
-})
+});
 
 /*http.listen(8090, function () {
     console.log('Server started!');
 });*/
 
 let lobbies = {};
-let move = {player: 0, steps: 0};
 
 /*server.get("/", (req, res) => {
     res.send("hello this is default text in box");
@@ -30,9 +29,13 @@ let move = {player: 0, steps: 0};
 // Creating a lobby
 server.put("/lobby", (req, res) => {
     let lobby = createLobby();
-    lobbies[lobby.id] = lobby;
+    lobby.timerStatus = req.body.timerStatus;
+    lobby.timerTime = req.body.timerTime;
 
-    const currentUser = joinLobby(lobby.id, req.body);
+    lobbies[lobby.id] = lobby;
+    console.log(req.body);
+
+    const currentUser = joinLobby(lobby.id, req.body.name);
     lobby.user = currentUser;
     lobby.host = currentUser.userId;
 
@@ -155,7 +158,9 @@ function findUser(players, playerId) {
 function createLobby() {
     return {
         id: makeid(6),
-        users: []
+        users: [],
+        timerStatus: false,
+        timerTime: 0
     }
 }
 
