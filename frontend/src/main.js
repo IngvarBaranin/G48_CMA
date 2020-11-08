@@ -10,7 +10,7 @@ import CreateLobby from "./components/CreateLobby";
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 
-axios.defaults.baseURL = 'http://localhost:8090';
+axios.defaults.baseURL = 'https://changemakersadventure.herokuapp.com/';
 
 const routes = [
     {

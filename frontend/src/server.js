@@ -1,23 +1,31 @@
 const express = require('express');
+const serveStatic = require('serve-static')
+const path = require('path')
 const server = express();
 const http = require('http').createServer(server);
 const cors = require('cors');
 const questions = require('./questions.json');
 const positions = require('./positions.json');
 
-server.use(cors({origin: "http://localhost:8080"}));
+server.use(cors());
+server.use('/', serveStatic(path.join(__dirname, '../dist')))
 server.use(express.json());
 
-http.listen(8090, function () {
+const port = process.env.PORT || 8090
+server.listen(port, function () {
+    console.log("Server started")
+})
+
+/*http.listen(8090, function () {
     console.log('Server started!');
-});
+});*/
 
 let lobbies = {};
 let move = {player: 0, steps: 0};
 
-server.get("/", (req, res) => {
+/*server.get("/", (req, res) => {
     res.send("hello this is default text in box");
-});
+});*/
 
 // Creating a lobby
 server.put("/lobby", (req, res) => {
